@@ -1,0 +1,17 @@
+body {
+    background-color: #f1f5f9;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Poppins", sans-serif;
+    overflow-x: hidden;
+}
+
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: 600;
+    text-align: center;
+}
