@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register</title>
+    <link rel="stylesheet" href="register.css" />
+  </head>
+  <body>
+    <!-- nav -->
+    <nav class="navbar">
+      <a href="/homepage/homepage.html">SiapSuruh.</a>
+      <a href="/login/user/loginUser.html">Login User</a>
+    </nav>
+    <main class="content">
+      <div class="form-card">
+        <h2>Register</h2>
+        <form action="#">
+          <div class="form-group">
+            <label for="name">Nama</label>
+            <input type="text" id="name" name="name" required />
+          </div>
+          <div class="form-group">
+            <label for="phone">No HP</label>
+            <input type="tel" id="phone" name="phone" required />
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required />
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required />
+          </div>
+          <div class="form-group">
+            <label for="address">Alamat</label>
+            <input type="text" id="address" name="address" required />
+          </div>
+          <div class="form-group">
+            <label for="province">Provinsi</label>
+            <input type="text" id="province" name="province" required />
+          </div>
+          <div class="form-group">
+            <label>Daftar sebagai</label>
+            <div class="radio-group">
+              <label>
+                <input type="radio" name="role" value="pengguna" required />
+                Pengguna
+              </label>
+              <label>
+                <input type="radio" name="role" value="jasa" required />
+                Jasa
+              </label>
+            </div>
+          </div>
+          <button type="submit">Daftar</button>
+        </form>
+      </div>
+    </main>
+  </body>
+</html>
