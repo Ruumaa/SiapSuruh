@@ -12,3 +12,8 @@
 body {
   background-color: #f3f4f6;
 }
+
+.admin{
+  min-height: 100vh;
+  background: red;
+}
