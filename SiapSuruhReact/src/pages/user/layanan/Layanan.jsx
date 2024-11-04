@@ -16,7 +16,7 @@ const Layanan = () => {
   };
 
   const handlePaymentMethod = (event) => {
-    setPaymentMethod(event.target.value); // Update the state with the selected value
+    setPaymentMethod(event.target.value);
   };
 
   return (

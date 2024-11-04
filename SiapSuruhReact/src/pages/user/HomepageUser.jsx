@@ -44,7 +44,7 @@ const HomepageUser = () => {
           return (
             <div
               key={jasa.id}
-              className="w-full  bg-white shadow-lg rounded-lg p-4 flex items-center cursor-pointer hover:scale-105 hover:shadow-xl duration-300"
+              className="w-full  bg-white shadow-lg rounded-lg p-8 flex items-center cursor-pointer hover:scale-105 hover:shadow-xl duration-300"
               onClick={() => handleClick(jasa.id)}
             >
               <div className="avatar">
