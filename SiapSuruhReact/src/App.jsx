@@ -14,6 +14,7 @@ import Register from './pages/Register';
 import HomepageJasa from './pages/jasa/HomepageJasa';
 import HomepageUser from './pages/user/HomepageUser';
 import Layanan from './pages/user/layanan/Layanan';
+import Admin from './pages/admin/admin';
 
 const App = () => {
   return (
@@ -28,6 +29,7 @@ const App = () => {
           <Route path="/home-jasa" element={<HomepageJasa />} />
           <Route path="/home-user" element={<HomepageUser />} />
           <Route path="/home-user/layanan/:jasa_id" element={<Layanan />} />
+          <Route path="/admin" element={<Admin />} />
         </Routes>
       </MainLayout>
     </Router>
