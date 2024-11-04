@@ -99,4 +99,14 @@ export const jasaData = [
     lokasi: 'Malang',
     noHp: '0882-3344-5566',
   },
+  {
+    id: 11,
+    nama: 'Boy Gerr',
+    kategori: 'Pembersihan Saptitank',
+    namaJasa: 'Sedot WC',
+    deskripsi:
+      'Jasa penyedotan saptitank anda siap melayani segala jenis lubang jamban Anda, langsung ke lokasi.',
+    lokasi: 'Jakarta',
+    noHp: '0881-5647-2341',
+  },
 ];
