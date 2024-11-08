@@ -6,15 +6,15 @@ import {
   Route,
   // Navigate,
 } from 'react-router-dom';
-import Home from './pages/Home';
+import Home from './pages';
 import MainLayout from './components/MainLayout';
-import LoginUser from './pages/LoginUser';
-import LoginJasa from './pages/LoginJasa';
-import Register from './pages/Register';
-import HomepageJasa from './pages/jasa/HomepageJasa';
-import HomepageUser from './pages/user/HomepageUser';
-import Layanan from './pages/user/layanan/Layanan';
-import Admin from './pages/admin/admin';
+import LoginUser from './pages/auth/LoginUser';
+import LoginJasa from './pages/auth/LoginJasa';
+import Register from './pages/auth/Register';
+import HomepageJasa from './pages/jasa';
+import HomepageUser from './pages/user';
+import Layanan from './pages/user/layanan';
+import Admin from './pages/admin';
 
 const App = () => {
   return (
@@ -24,12 +24,12 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/login-user" element={<LoginUser />} />
-          <Route path="/login-jasa" element={<LoginJasa />} />
-          <Route path="/home-jasa" element={<HomepageJasa />} />
-          <Route path="/home-user" element={<HomepageUser />} />
-          <Route path="/home-user/layanan/:jasa_id" element={<Layanan />} />
-          <Route path="/admin" element={<Admin />} />
+          <Route path="/user/login" element={<LoginUser />} />
+          <Route path="/provider/login" element={<LoginJasa />} />
+          <Route path="/provider/home" element={<HomepageJasa />} />
+          <Route path="/user/home" element={<HomepageUser />} />
+          <Route path="/user/home/service/:provider_id" element={<Layanan />} />
+          <Route path="/admin/dashboard" element={<Admin />} />
         </Routes>
       </MainLayout>
     </Router>

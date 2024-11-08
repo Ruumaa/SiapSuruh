@@ -1,19 +1,18 @@
 import { useNavigate } from 'react-router-dom';
 
-const LoginJasa = () => {
+const LoginUser = () => {
   const navigate = useNavigate();
 
   const handleSubmit = () => {
-    navigate('/home-jasa');
+    navigate('/user/home');
   };
-
   return (
     <div className="min-h-screen flex items-center justify-center">
       <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
         <h2 className="text-2xl font-bold mb-6 text-gray-800 text-center">
-          Login <br />{' '}
+          Login <br />
           <span className="text-sm text-gray-500 font-normal line-clamp-1">
-            sebagai jasa
+            sebagai pengguna
           </span>
         </h2>
         <form onSubmit={handleSubmit}>
@@ -51,4 +50,4 @@ const LoginJasa = () => {
   );
 };
 
-export default LoginJasa;
+export default LoginUser;

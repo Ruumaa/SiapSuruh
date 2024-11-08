@@ -2,11 +2,11 @@ import { useParams } from 'react-router-dom';
 import { jasaData } from '../../../utils/jasa.utils';
 import { avatarURL } from '../../../utils/avatar.utils';
 import { useState } from 'react';
-import FormModal from '../../../features/layanan/formModal';
+import FormModal from '../../../features/pengguna/components/formModal';
 
 const Layanan = () => {
-  const { jasa_id } = useParams();
-  const jasa = jasaData.find((jasa) => jasa.id === parseInt(jasa_id));
+  const { provider_id } = useParams();
+  const jasa = jasaData.find((jasa) => jasa.id === parseInt(provider_id));
 
   const [paymentMethod, setPaymentMethod] = useState('');
   const [isModalOpen, setModalOpen] = useState(false);

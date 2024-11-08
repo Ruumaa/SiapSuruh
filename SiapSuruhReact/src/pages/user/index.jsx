@@ -14,7 +14,7 @@ const HomepageUser = () => {
   );
 
   const handleClick = (id) => {
-    navigate(`/home-user/layanan/${id}`);
+    navigate(`/user/home/service/${id}`);
   };
 
   return (

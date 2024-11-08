@@ -6,12 +6,12 @@ const Home = () => {
     { label: 'Register', path: '/register', className: 'btn-outline' },
     {
       label: 'Login Jasa',
-      path: '/login-jasa',
+      path: '/provider/login',
       className: 'btn-primary hover:text-white',
     },
     {
       label: 'Login Pengguna',
-      path: '/login-user',
+      path: '/user/login',
       className: 'btn-primary hover:text-white',
     },
   ];
