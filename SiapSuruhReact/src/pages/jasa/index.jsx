@@ -1,3 +1,4 @@
+import PesananCard from '../../features/jasa/components/PesananCard';
 import { avatarURL } from '../../utils/avatar.utils';
 import { jasaData } from '../../utils/jasa.utils';
 
@@ -7,7 +8,7 @@ const HomepageJasa = () => {
     <div className="min-h-screen w-full flex items-center justify-center">
       <div
         key={jasa.id}
-        className="w-full  bg-white shadow-lg rounded-lg p-8 items-center max-w-4xl"
+        className="w-full my-20 bg-white shadow-lg rounded-lg p-8 items-center max-w-4xl"
       >
         <div className="flex">
           <div className="avatar">
@@ -59,6 +60,11 @@ const HomepageJasa = () => {
               />
             </div>
           </div>
+        </div>
+        <div className="w-full mt-5">
+          <h1 className="text-2xl font-semibold">Riwayat Pesanan</h1>
+          {/* Layanan Card */}
+          <PesananCard />
         </div>
       </div>
     </div>
