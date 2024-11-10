@@ -14,13 +14,20 @@ const Navbar = () => {
         >
           SiapSuruh.
         </Link>
-        {isUser || isProvider ? (
-          <Link to="/" className="btn bg-white btn-sm h-10">
-            Logout <HiOutlineLogout className="size-5" />
-          </Link>
-        ) : (
-          ''
-        )}
+        <div className="flex items-center gap-x-4">
+          {isUser && (
+            <Link className="btn btn-ghost btn-sm h-10" to="/user/home/pesanan">
+              Pesanan
+            </Link>
+          )}
+          {isUser || isProvider ? (
+            <Link to="/" className="btn bg-white btn-sm h-10">
+              Logout <HiOutlineLogout className="size-5" />
+            </Link>
+          ) : (
+            ''
+          )}
+        </div>
       </nav>
     </div>
   );

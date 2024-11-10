@@ -1,8 +1,8 @@
 import { IoLocationSharp } from 'react-icons/io5';
 import { jasaData } from '../../utils/jasa.utils';
 import { useState } from 'react';
-import { avatarURL } from '../../utils/avatar.utils';
 import { useNavigate } from 'react-router-dom';
+import { avatarURL } from '../../utils';
 const HomepageUser = () => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');

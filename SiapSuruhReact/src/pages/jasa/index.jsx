@@ -1,6 +1,7 @@
 import PesananCard from '../../features/jasa/components/PesananCard';
-import { avatarURL } from '../../utils/avatar.utils';
+import { avatarURL } from '../../utils';
 import { jasaData } from '../../utils/jasa.utils';
+import { pesananJasaData } from '../../utils/pesananJasa.utils';
 
 const HomepageJasa = () => {
   const jasa = jasaData[0];
@@ -30,8 +31,9 @@ const HomepageJasa = () => {
         </div>
         {/* Rating */}
         <div className="w-full mt-5">
-          <h1 className="text-2xl font-semibold">Rating Saya</h1>
+          <h1 className="text-xl font-semibold mb-2">Rating Saya</h1>
           <div className="flex items-center">
+            <h1 className="text-xl font-semibold mr-2">4.2</h1>
             <div className="rating">
               <input
                 type="radio"
@@ -62,9 +64,9 @@ const HomepageJasa = () => {
           </div>
         </div>
         <div className="w-full mt-5">
-          <h1 className="text-2xl font-semibold">Riwayat Pesanan</h1>
+          <h1 className="text-xl font-semibold">Riwayat Pesanan</h1>
           {/* Layanan Card */}
-          <PesananCard />
+          <PesananCard pesananJasaData={pesananJasaData} />
         </div>
       </div>
     </div>

@@ -1,8 +1,8 @@
 import { useParams } from 'react-router-dom';
 import { jasaData } from '../../../utils/jasa.utils';
-import { avatarURL } from '../../../utils/avatar.utils';
 import { useState } from 'react';
 import FormModal from '../../../features/pengguna/components/formModal';
+import { avatarURL } from '../../../utils';
 
 const Layanan = () => {
   const { provider_id } = useParams();

@@ -15,6 +15,7 @@ import HomepageJasa from './pages/jasa';
 import HomepageUser from './pages/user';
 import Layanan from './pages/user/layanan';
 import Admin from './pages/admin';
+import Pesanan from './pages/user/pesanan';
 
 const App = () => {
   return (
@@ -28,6 +29,7 @@ const App = () => {
           <Route path="/provider/login" element={<LoginJasa />} />
           <Route path="/provider/home" element={<HomepageJasa />} />
           <Route path="/user/home" element={<HomepageUser />} />
+          <Route path="/user/home/pesanan" element={<Pesanan />} />
           <Route path="/user/home/service/:provider_id" element={<Layanan />} />
           <Route path="/admin/dashboard" element={<Admin />} />
         </Routes>

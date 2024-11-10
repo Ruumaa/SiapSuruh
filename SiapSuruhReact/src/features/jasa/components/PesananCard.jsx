@@ -1,13 +1,7 @@
 import StatusButton from '../../../components/ui/StatusButton';
-import { avatarURL } from '../../../utils/avatar.utils';
-import { pesananJasaData } from '../../../utils/pesananJasa.utils';
+import { avatarURL, formatToIDR } from '../../../utils';
 
-const PesananCard = () => {
-  const formatToIDR = (amount) => {
-    return `Rp. ${amount.toLocaleString('id-ID', {
-      maximumFractionDigits: 0,
-    })}`;
-  };
+const PesananCard = ({ pesananJasaData }) => {
   return (
     <div className="space-y-4 mt-5">
       {pesananJasaData.map((pesanan) => (
