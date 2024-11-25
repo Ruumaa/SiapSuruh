@@ -31,7 +31,7 @@ const App = () => {
           <Route path="/user/home" element={<HomepageUser />} />
           <Route path="/user/home/pesanan" element={<Pesanan />} />
           <Route path="/user/home/service/:provider_id" element={<Layanan />} />
-          <Route path="/admin/dashboard" element={<Admin />} />
+          <Route path="/admin" element={<Admin />} />
         </Routes>
       </MainLayout>
     </Router>
