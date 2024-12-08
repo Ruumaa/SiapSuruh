@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { laporanData } from '../../utils/laporan.utils';
 import { GrUserWorker } from 'react-icons/gr';
 import { FaRegUser, FaRegClock } from 'react-icons/fa';
-import { jasaData } from '../../utils/jasa.utils';
 
 const Admin = () => {
   const navigate = useNavigate();
@@ -11,11 +10,10 @@ const Admin = () => {
 
   const filteredData = laporanData.filter(
     (laporan) =>
+      laporan.namaPengguna.toLowerCase().includes(searchQuery.toLowerCase()) ||
       laporan.penyediaJasa.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      laporan.namaPengguna.toLowerCase().includes(searchQuery.toLowerCase())
+      laporan.namaJasa.toLowerCase().includes(searchQuery.toLowerCase())
   );
-
-  const namaJasa = jasaData.map((jasa) => jasa.namaJasa);
 
   const handleClick = (id) => {
     navigate(`/admin/laporan/${id}`);
@@ -26,7 +24,7 @@ const Admin = () => {
       <div className="mb-8 w-full max-w-md flex gap-x-3">
         <input
           type="text"
-          placeholder="Cari berdasarkan nama user atau jasa"
+          placeholder="Cari nama pengguna, penyedia jasa atau nama jasa"
           className="input input-bordered w-full"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
@@ -52,7 +50,7 @@ const Admin = () => {
                 <div className="flex items-center space-x-2">
                   <GrUserWorker size={20} className="text-yellow-500" />
                   <span className="text-gray-600 font-semibold">
-                    {laporan.penyediaJasa}, {namaJasa[laporan.jasa_id]}
+                    {laporan.penyediaJasa}, {laporan.namaJasa}
                   </span>
                 </div>
               </div>
