@@ -1,6 +1,20 @@
 import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
+  // const [users, setUsers] = useState([]);
+
+  // useEffect(() => {
+  //   // Ambil data dari backend
+  //   axios
+  //     .get('http://localhost:5000/users')
+  //     .then((response) => {
+  //       setUsers(response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error fetching users:', error);
+  //     });
+  // }, []);
+
   const navigate = useNavigate();
   const buttons = [
     { label: 'Register', path: '/register', className: 'btn-outline' },
@@ -21,6 +35,7 @@ const Home = () => {
       {/* Text */}
       <div className="flex flex-col w-1/2">
         <h1 className="text-7xl font-semibold">Perlu Bantuan Dadakan?</h1>
+        {/* <h1 className="text-7xl font-semibold">{users[0].name}</h1> */}
         <h2 className="text-2xl mt-4">Kami siap membantu Anda kapan saja!</h2>
       </div>
 
