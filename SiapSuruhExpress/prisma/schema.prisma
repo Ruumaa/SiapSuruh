@@ -21,8 +21,14 @@ model User {
   phone_number Int?
   address      String?
   img_url      String?
-  // role
+  role         Role       @default(USER)
   Provider     Provider[]
+}
+
+enum Role {
+  USER
+  ADMIN
+  PROVIDER
 }
 
 model Provider {
@@ -34,12 +40,25 @@ model Provider {
   bio           String?
   User          User       @relation(fields: [user_id], references: [id])
   categories    Category[]
-  // availability_status
+  Service       Service[]
 }
 
 model Category {
   id          String     @id @default(uuid())
   name        String
-  description String
+  description String?
   Provider    Provider[]
+  created_at  DateTime   @default(now())
+  updated_at  DateTime   @updatedAt
+}
+
+model Service {
+  id          String   @id @default(uuid())
+  provider_id String
+  title       String
+  description String
+  price       Int?
+  Provider    Provider @relation(fields: [provider_id], references: [id])
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
 }
