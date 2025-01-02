@@ -32,24 +32,26 @@ enum Role {
 }
 
 model Provider {
-  id            String     @id @default(uuid())
-  user_id       String
-  rating        Float
-  total_reviews Int
-  provider_name String?
-  bio           String?
-  User          User       @relation(fields: [user_id], references: [id])
-  categories    Category[]
-  Service       Service[]
+  id                 String               @id @default(uuid())
+  user_id            String
+  rating             Float?
+  total_reviews      Int?
+  provider_name      String?
+  bio                String?
+  User               User                 @relation(fields: [user_id], references: [id])
+  categories         Category[]
+  Service            Service[]
+  ProviderCategories ProviderCategories[]
 }
 
 model Category {
-  id          String     @id @default(uuid())
-  name        String
-  description String?
-  Provider    Provider[]
-  created_at  DateTime   @default(now())
-  updated_at  DateTime   @updatedAt
+  id                 String               @id @default(uuid())
+  name               String
+  description        String?
+  Provider           Provider[]
+  created_at         DateTime             @default(now())
+  updated_at         DateTime             @updatedAt
+  ProviderCategories ProviderCategories[]
 }
 
 model Service {
@@ -61,4 +63,34 @@ model Service {
   Provider    Provider @relation(fields: [provider_id], references: [id])
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt
+}
+
+model ProviderCategories {
+  provider_id String
+  category_id String
+
+  // Relasi ke Provider
+  provider Provider @relation(fields: [provider_id], references: [id])
+  // Relasi ke Category
+  category Category @relation(fields: [category_id], references: [id])
+
+  @@id([provider_id, category_id]) // Composite Primary Key
+}
+
+model Report {
+  id                   String       @id @default(uuid())
+  reported_by_id       String
+  reported_provider_id String
+  description          String?
+  action_taken         ActionTaken?
+  admin_id             String
+  action_reason        String?
+  blocked_until        DateTime?
+}
+
+enum ActionTaken {
+  NONE
+  WARNING
+  SUSPENSION
+  DELETION
 }

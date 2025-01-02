@@ -20,7 +20,11 @@ export const authorization = (req, res, next) => {
 
     // Menyimpan userData ke dalam request (opsional, jika verifikasi sukses)
     if (typeof jwtDecode !== 'string') {
-      req.userData = jwtDecode;
+      req.userData = {
+        id: jwtDecode.id,
+        username: jwtDecode.username,
+        role: jwtDecode.role,
+      };
     }
   } catch (error) {
     return res.status(401).json({ message: 'Unauthorized' });
@@ -28,4 +32,16 @@ export const authorization = (req, res, next) => {
 
   // Melanjutkan middleware berikutnya
   next();
+};
+
+export const roleAuthorization = (roles) => {
+  return (req, res, next) => {
+    if (!roles.includes(req.userData.role)) {
+      return res.status(403).json({
+        message:
+          'Access denied. You do not have permission to perform this action.',
+      });
+    }
+    next();
+  };
 };

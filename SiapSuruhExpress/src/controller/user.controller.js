@@ -31,7 +31,7 @@ export const getUserById = async (req, res) => {
 export const editUser = async (req, res) => {
   try {
     const { id } = await req.params;
-    const { username, email, password, phone_number, address, img_url } =
+    const { username, email, password, phone_number, address, img_url, role } =
       await req.body;
 
     const existedUser = await prisma.user.findFirst({
@@ -51,6 +51,7 @@ export const editUser = async (req, res) => {
       phone_number,
       address,
       img_url,
+      role,
     };
 
     if (password) {
