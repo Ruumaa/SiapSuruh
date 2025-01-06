@@ -31,6 +31,20 @@ import {
   editProvider,
   getAllProviders,
 } from '../controller/provider.controller.js';
+import {
+  createOrder,
+  deleteOrder,
+  editOrder,
+  getAllOrders,
+  getOrderById,
+} from '../controller/order.controller.js';
+import {
+  createReport,
+  deleteReport,
+  editReport,
+  getAllReports,
+  getReportById,
+} from '../controller/report.controller.js';
 
 const router = Router();
 
@@ -96,6 +110,7 @@ router.delete(
 
 // Provider
 router.get('/api/providers', authorization, getAllProviders);
+router.get('/api/providers/:id', authorization, getUserById);
 router.post(
   '/api/providers',
   authorization,
@@ -113,6 +128,35 @@ router.delete(
   authorization,
   roleAuthorization(['ADMIN', 'PROVIDER']),
   deleteProvider
+);
+
+// Order
+router.get('/api/orders', authorization, getAllOrders);
+router.get('/api/orders/:id', authorization, getOrderById);
+router.post('/api/orders', authorization, createOrder);
+router.put('/api/orders/:id', authorization, editOrder);
+router.delete('/api/orders/:id', authorization, deleteOrder);
+
+// Report
+router.get(
+  '/api/reports',
+  authorization,
+  roleAuthorization(['ADMIN']),
+  getAllReports
+);
+router.get(
+  '/api/reports/:id',
+  authorization,
+  roleAuthorization(['ADMIN']),
+  getReportById
+);
+router.post('/api/reports', authorization, createReport);
+router.put('/api/reports/:id', authorization, editReport);
+router.delete(
+  '/api/reports/:id',
+  authorization,
+  roleAuthorization(['ADMIN']),
+  deleteReport
 );
 
 export { router };

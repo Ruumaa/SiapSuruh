@@ -77,20 +77,48 @@ model ProviderCategories {
   @@id([provider_id, category_id]) // Composite Primary Key
 }
 
+model Order {
+  id             String        @id @default(uuid())
+  user_id        String
+  service_id     String
+  provider_id    String
+  details        String
+  location       String
+  status         OrderStatus   @default(PENDING)
+  order_date     DateTime
+  total_price    Decimal
+  // payment_method 
+  payment_status PaymentStatus @default(PENDING)
+}
+
 model Report {
   id                   String       @id @default(uuid())
   reported_by_id       String
   reported_provider_id String
   description          String?
-  action_taken         ActionTaken?
+  action_taken         ActionTaken? @default(PENDING)
   admin_id             String
   action_reason        String?
   blocked_until        DateTime?
 }
 
 enum ActionTaken {
+  PENDING
   NONE
-  WARNING
   SUSPENSION
   DELETION
+}
+
+enum OrderStatus {
+  PENDING
+  ACCEPTED
+  PROCCESSED
+  COMPLETED
+  REJECTED
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
 }
