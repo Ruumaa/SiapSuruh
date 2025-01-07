@@ -23,6 +23,7 @@ model User {
   img_url      String?
   role         Role       @default(USER)
   Provider     Provider[]
+  Review       Review[]
 }
 
 enum Role {
@@ -42,6 +43,7 @@ model Provider {
   categories         Category[]
   Service            Service[]
   ProviderCategories ProviderCategories[]
+  Review             Review[]
 }
 
 model Category {
@@ -100,6 +102,18 @@ model Report {
   admin_id             String
   action_reason        String?
   blocked_until        DateTime?
+}
+
+model Review {
+  id          String   @id @default(uuid())
+  user_id     String
+  provider_id String
+  rating      Int
+  comment     String?
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+  user        User     @relation(fields: [user_id], references: [id])
+  provider    Provider @relation(fields: [provider_id], references: [id])
 }
 
 enum ActionTaken {

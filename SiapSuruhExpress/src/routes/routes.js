@@ -45,6 +45,13 @@ import {
   getAllReports,
   getReportById,
 } from '../controller/report.controller.js';
+import {
+  createReview,
+  deleteReview,
+  editReview,
+  getAllReviews,
+  getReviewById,
+} from '../controller/review.controller.js';
 
 const router = Router();
 
@@ -158,5 +165,12 @@ router.delete(
   roleAuthorization(['ADMIN']),
   deleteReport
 );
+
+// Review
+router.get('/api/reviews', authorization, getAllReviews);
+router.get('/api/reviews/:id', authorization, getReviewById);
+router.post('/api/reviews', authorization, createReview);
+router.put('/api/reviews/:id', authorization, editReview);
+router.delete('/api/reviews/:id', authorization, deleteReview);
 
 export { router };
