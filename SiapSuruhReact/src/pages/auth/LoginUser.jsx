@@ -1,10 +1,27 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useLoginUser } from '../../hooks/useAuth';
+import { toast } from 'react-toastify';
 
 const LoginUser = () => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  const { mutate: login, isLoading } = useLoginUser();
   const navigate = useNavigate();
 
-  const handleSubmit = () => {
-    navigate('/user/home');
+  const handleLogin = (e) => {
+    e.preventDefault();
+    login(
+      { username, password },
+      {
+        onSuccess: () => {
+          navigate('/user/home');
+          toast.success('Login Success');
+        },
+        onError: (error) => toast.error(`${error.message}`),
+      }
+    );
   };
   return (
     <div className="min-h-screen flex items-center justify-center">
@@ -15,34 +32,33 @@ const LoginUser = () => {
             sebagai pengguna
           </span>
         </h2>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleLogin}>
           <div className="mb-4">
-            <label htmlFor="email" className="block text-gray-700">
-              Email
-            </label>
+            <label className="block text-gray-700">Username</label>
             <input
-              type="email"
-              id="email"
-              placeholder="Enter your email"
+              type="text"
+              placeholder="Enter your username"
               className="w-full input input-bordered  focus:outline-none mt-2"
+              onChange={(e) => setUsername(e.target.value)}
+              value={username}
             />
           </div>
           <div className="mb-6">
-            <label htmlFor="password" className="block text-gray-700">
-              Password
-            </label>
+            <label className="block text-gray-700">Password</label>
             <input
               type="password"
-              id="password"
               placeholder="Enter your password"
               className="w-full input input-bordered  focus:outline-none mt-2"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
           <button
             type="submit"
+            disabled={isLoading}
             className="w-full btn btn-primary hover:text-white"
           >
-            Login
+            {isLoading ? 'Logging in...' : 'Login'}
           </button>
         </form>
       </div>

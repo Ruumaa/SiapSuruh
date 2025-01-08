@@ -48,7 +48,7 @@ router.post('/register', async (req, res, next) => {
   }
 });
 
-router.post('/login', async (req, res, next) => {
+router.post('/login/user', async (req, res, next) => {
   try {
     const { username, password } = await req.body;
     const existingUser = await prisma.user.findUnique({
@@ -62,6 +62,48 @@ router.post('/login', async (req, res, next) => {
     const passwordMatch = await compare(password, existingUser.password);
     if (!passwordMatch)
       return res.status(401).json({ message: 'Invalid credentials' });
+
+    if (existingUser.role !== 'USER') {
+      return res
+        .status(403)
+        .json({ message: 'Access denied. Not authorized as USER.' });
+    }
+
+    const accessToken = generateToken({
+      id: existingUser.id,
+      username: existingUser.username,
+      role: existingUser.role,
+    });
+
+    return res
+      .status(200)
+      .json({ message: 'Sign in success', accessToken, id: existingUser.id });
+  } catch (error) {
+    console.error('Error:', error.message);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+router.post('/login/provider', async (req, res, next) => {
+  try {
+    const { username, password } = await req.body;
+    const existingUser = await prisma.user.findUnique({
+      where: {
+        username,
+      },
+    });
+    if (!existingUser)
+      return res.status(404).json({ message: 'User not found' });
+
+    const passwordMatch = await compare(password, existingUser.password);
+    if (!passwordMatch)
+      return res.status(401).json({ message: 'Invalid credentials' });
+
+    if (existingUser.role !== 'PROVIDER') {
+      return res
+        .status(403)
+        .json({ message: 'Access denied. Not authorized as PROVIDER.' });
+    }
 
     const accessToken = generateToken({
       id: existingUser.id,
