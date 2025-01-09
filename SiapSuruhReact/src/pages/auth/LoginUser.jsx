@@ -1,17 +1,19 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLoginUser } from '../../hooks/useAuth';
 import { toast } from 'react-toastify';
+import { useForm } from 'react-hook-form';
+import ErrorText from '../../components/ui/ErrorText';
 
 const LoginUser = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-
-  const { mutate: login, isLoading } = useLoginUser();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const { mutate: login, isPending } = useLoginUser();
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
-    e.preventDefault();
+  const handleLogin = ({ username, password }) => {
     login(
       { username, password },
       {
@@ -23,6 +25,7 @@ const LoginUser = () => {
       }
     );
   };
+
   return (
     <div className="min-h-screen flex items-center justify-center">
       <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
@@ -32,16 +35,18 @@ const LoginUser = () => {
             sebagai pengguna
           </span>
         </h2>
-        <form onSubmit={handleLogin}>
+        <form onSubmit={handleSubmit(handleLogin)}>
           <div className="mb-4">
             <label className="block text-gray-700">Username</label>
             <input
               type="text"
               placeholder="Enter your username"
               className="w-full input input-bordered  focus:outline-none mt-2"
-              onChange={(e) => setUsername(e.target.value)}
-              value={username}
+              {...register('username', { required: 'Username is required' })}
             />
+            {errors.username && (
+              <ErrorText errorMessage={errors.username.message} />
+            )}
           </div>
           <div className="mb-6">
             <label className="block text-gray-700">Password</label>
@@ -49,16 +54,18 @@ const LoginUser = () => {
               type="password"
               placeholder="Enter your password"
               className="w-full input input-bordered  focus:outline-none mt-2"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              {...register('password', { required: 'Password is required' })}
             />
+            {errors.password && (
+              <ErrorText errorMessage={errors.password.message} />
+            )}
           </div>
           <button
             type="submit"
-            disabled={isLoading}
+            disabled={isPending}
             className="w-full btn btn-primary hover:text-white"
           >
-            {isLoading ? 'Logging in...' : 'Login'}
+            {isPending ? 'Logging in...' : 'Login'}
           </button>
         </form>
       </div>

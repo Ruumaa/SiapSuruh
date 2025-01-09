@@ -13,6 +13,7 @@ import Admin from './pages/admin';
 import Pesanan from './pages/user/pesanan';
 import ProfileUser from './pages/user/profile';
 import ProfileJasa from './pages/jasa/profile';
+import RequireAuth from './middleware/requireAuth';
 
 const App = () => {
   return (
@@ -24,20 +25,29 @@ const App = () => {
           {/* Auth */}
           <Route path="/register" element={<Register />} />
           <Route path="/user/login" element={<LoginUser />} />
+          <Route path="/provider/login" element={<LoginJasa />} />
 
           {/* Jasa */}
-          <Route path="/provider/login" element={<LoginJasa />} />
-          <Route path="/provider/home" element={<HomepageJasa />} />
-          <Route path="/provider/home/profile" element={<ProfileJasa />} />
+          <Route element={<RequireAuth allowedRoles={['PROVIDER']} />}>
+            <Route path="/provider/home" element={<HomepageJasa />} />
+            <Route path="/provider/home/profile" element={<ProfileJasa />} />
+          </Route>
 
           {/* User */}
-          <Route path="/user/home" element={<HomepageUser />} />
-          <Route path="/user/home/pesanan" element={<Pesanan />} />
-          <Route path="/user/home/service/:provider_id" element={<Layanan />} />
-          <Route path="/user/home/profile" element={<ProfileUser />} />
+          <Route element={<RequireAuth allowedRoles={['USER']} />}>
+            <Route path="/user/home" element={<HomepageUser />} />
+            <Route path="/user/home/pesanan" element={<Pesanan />} />
+            <Route
+              path="/user/home/service/:provider_id"
+              element={<Layanan />}
+            />
+            <Route path="/user/home/profile" element={<ProfileUser />} />
+          </Route>
 
           {/* Admin */}
-          <Route path="/admin" element={<Admin />} />
+          <Route element={<RequireAuth allowedRoles={['ADMIN']} />}>
+            <Route path="/admin" element={<Admin />} />
+          </Route>
         </Routes>
       </MainLayout>
     </Router>

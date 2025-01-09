@@ -1,10 +1,24 @@
 import { useNavigate } from 'react-router-dom';
+import { useLoginJasa } from '../../hooks/useAuth';
+import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 
 const LoginJasa = () => {
   const navigate = useNavigate();
+  const { register, handleSubmit } = useForm();
+  const { mutate: login, isPending } = useLoginJasa();
 
-  const handleSubmit = () => {
-    navigate('/provider/home');
+  const handleLogin = ({ username, password }) => {
+    login(
+      { username, password },
+      {
+        onSuccess: () => {
+          navigate('/provider/home');
+          toast.success('Login Success');
+        },
+        onError: (error) => toast.error(`${error.message}`),
+      }
+    );
   };
 
   return (
@@ -16,34 +30,31 @@ const LoginJasa = () => {
             sebagai jasa
           </span>
         </h2>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(handleLogin)}>
           <div className="mb-4">
-            <label htmlFor="email" className="block text-gray-700">
-              Email
-            </label>
+            <label className="block text-gray-700">Username</label>
             <input
-              type="email"
-              id="email"
-              placeholder="Enter your email"
+              type="text"
+              placeholder="Enter your username"
               className="w-full input input-bordered  focus:outline-none mt-2"
+              {...register('username')}
             />
           </div>
           <div className="mb-6">
-            <label htmlFor="password" className="block text-gray-700">
-              Password
-            </label>
+            <label className="block text-gray-700">Password</label>
             <input
               type="password"
-              id="password"
               placeholder="Enter your password"
               className="w-full input input-bordered  focus:outline-none mt-2"
+              {...register('password')}
             />
           </div>
           <button
             type="submit"
+            disabled={isPending}
             className="w-full btn btn-primary hover:text-white"
           >
-            Login
+            {isPending ? 'Logging in...' : 'Login'}
           </button>
         </form>
       </div>

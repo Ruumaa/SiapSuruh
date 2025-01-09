@@ -27,7 +27,7 @@ router.post('/register', async (req, res, next) => {
         username,
         email,
         password: hashedPassword,
-        phone_number,
+        phone_number: +phone_number,
         address,
         role,
       },
@@ -75,9 +75,12 @@ router.post('/login/user', async (req, res, next) => {
       role: existingUser.role,
     });
 
-    return res
-      .status(200)
-      .json({ message: 'Sign in success', accessToken, id: existingUser.id });
+    return res.status(200).json({
+      message: 'Sign in success',
+      accessToken,
+      id: existingUser.id,
+      role: existingUser.role,
+    });
   } catch (error) {
     console.error('Error:', error.message);
     res.status(500).json({ error: error.message });
@@ -111,9 +114,12 @@ router.post('/login/provider', async (req, res, next) => {
       role: existingUser.role,
     });
 
-    return res
-      .status(200)
-      .json({ message: 'Sign in success', accessToken, id: existingUser.id });
+    return res.status(200).json({
+      message: 'Sign in success',
+      accessToken,
+      id: existingUser.id,
+      role: existingUser.role,
+    });
   } catch (error) {
     console.error('Error:', error.message);
     res.status(500).json({ error: error.message });

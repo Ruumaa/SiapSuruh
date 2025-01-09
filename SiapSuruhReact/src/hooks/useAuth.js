@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { loginUser, register } from '../api/auth';
+import { loginJasa, loginUser, register } from '../api/auth';
 
 export const useLoginUser = () => {
   return useMutation({
@@ -16,7 +16,7 @@ export const useLoginUser = () => {
 
 export const useLoginJasa = () => {
   return useMutation({
-    mutationFn: loginUser,
+    mutationFn: loginJasa,
     onSuccess: (data) => {
       localStorage.setItem('token', data.accessToken);
       localStorage.setItem('role', data.role);
