@@ -1,20 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
-  // const [users, setUsers] = useState([]);
-
-  // useEffect(() => {
-  //   // Ambil data dari backend
-  //   axios
-  //     .get('http://localhost:5000/users')
-  //     .then((response) => {
-  //       setUsers(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.error('Error fetching users:', error);
-  //     });
-  // }, []);
-
   const navigate = useNavigate();
   const buttons = [
     { label: 'Register', path: '/register', className: 'btn-outline' },

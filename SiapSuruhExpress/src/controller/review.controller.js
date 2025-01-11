@@ -2,7 +2,9 @@ import { prisma } from '../config/prisma.js';
 
 export const getAllReviews = async (req, res) => {
   try {
-    const data = await prisma.review.findMany();
+    const data = await prisma.review.findMany({
+      include: { User: true, Provider: true },
+    });
     return res
       .status(200)
       .json({ message: 'Get all reviews successful', data });
@@ -19,6 +21,7 @@ export const getReviewById = async (req, res) => {
       where: {
         id,
       },
+      include: { User: true, Provider: true },
     });
     if (!data) return res.status(404).json({ message: 'Review not found' });
     return res

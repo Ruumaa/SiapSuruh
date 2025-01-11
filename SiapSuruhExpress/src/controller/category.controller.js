@@ -2,7 +2,9 @@ import { prisma } from '../config/prisma.js';
 
 export const getAllCategory = async (req, res) => {
   try {
-    const data = await prisma.category.findMany();
+    const data = await prisma.category.findMany({
+      include: { ProviderCategories: true },
+    });
     return res
       .status(200)
       .json({ message: 'Get all category successful', data });
@@ -19,6 +21,7 @@ export const getCategoryById = async (req, res) => {
       where: {
         id,
       },
+      include: { ProviderCategories: true },
     });
     if (!data) return res.status(404).json({ message: 'Category not found' });
 

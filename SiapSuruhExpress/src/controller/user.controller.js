@@ -3,7 +3,14 @@ import { prisma } from '../config/prisma.js';
 
 export const getAllUser = async (req, res) => {
   try {
-    const data = await prisma.user.findMany();
+    const data = await prisma.user.findMany({
+      include: {
+        Provider: true,
+        Review: true,
+        Order: true,
+        Report: true,
+      },
+    });
     return res.status(200).json({ message: 'Get all user successful', data });
   } catch (error) {
     console.error('Error:', error.message);
@@ -17,6 +24,12 @@ export const getUserById = async (req, res) => {
     const data = await prisma.user.findUnique({
       where: {
         id,
+      },
+      include: {
+        Provider: true,
+        Review: true,
+        Order: true,
+        Report: true,
       },
     });
     if (!data) return res.status(404).json({ message: 'User not found' });

@@ -2,7 +2,12 @@ import { prisma } from '../config/prisma.js';
 
 export const getAllServices = async (req, res) => {
   try {
-    const data = await prisma.service.findMany();
+    const data = await prisma.service.findMany({
+      include: {
+        Provider: true,
+        Order: true,
+      },
+    });
     return res
       .status(200)
       .json({ message: 'Get all services successful', data });
@@ -18,6 +23,10 @@ export const getServiceById = async (req, res) => {
     const data = await prisma.service.findUnique({
       where: {
         id,
+      },
+      include: {
+        Provider: true,
+        Order: true,
       },
     });
     if (!data) return res.status(404).json({ message: 'Service not found' });

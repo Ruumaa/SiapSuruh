@@ -2,7 +2,9 @@ import { prisma } from '../config/prisma.js';
 
 export const getAllOrders = async (req, res) => {
   try {
-    const data = await prisma.order.findMany();
+    const data = await prisma.order.findMany({
+      include: { User: true, Service: true, Provider: true, Provider: true },
+    });
     return res.status(200).json({ message: 'Get all orders successful', data });
   } catch (error) {
     console.error('Error:', error.message);
@@ -17,6 +19,7 @@ export const getOrderById = async (req, res) => {
       where: {
         id,
       },
+      include: { User: true, Service: true, Provider: true, Provider: true },
     });
     if (!data) return res.status(404).json({ message: 'Order not found' });
     return res

@@ -42,7 +42,7 @@ model Provider {
   provider_name      String?
   bio                String?
   User               User                 @relation(fields: [user_id], references: [id])
-  categories         Category[]
+  Categories         Category[]
   Service            Service[]
   ProviderCategories ProviderCategories[]
   Review             Review[]
@@ -76,12 +76,10 @@ model ProviderCategories {
   provider_id String
   category_id String
 
-  // Relasi ke Provider
   provider Provider @relation(fields: [provider_id], references: [id])
-  // Relasi ke Category
   category Category @relation(fields: [category_id], references: [id])
 
-  @@id([provider_id, category_id]) // Composite Primary Key
+  @@id([provider_id, category_id])
 }
 
 model Order {
@@ -122,8 +120,8 @@ model Review {
   comment     String?
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt
-  user        User     @relation(fields: [user_id], references: [id])
-  provider    Provider @relation(fields: [provider_id], references: [id])
+  User        User     @relation(fields: [user_id], references: [id])
+  Provider    Provider @relation(fields: [provider_id], references: [id])
 }
 
 enum ActionTaken {

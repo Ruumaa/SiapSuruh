@@ -2,10 +2,40 @@ import { prisma } from '../config/prisma.js';
 
 export const getAllProviders = async (req, res) => {
   try {
-    const data = await prisma.provider.findMany();
+    const data = await prisma.provider.findMany({
+      include: {
+        Service: true,
+        Categories: true,
+        ProviderCategories: true,
+        Review: true,
+        Order: true,
+      },
+    });
     return res
       .status(200)
       .json({ message: 'Get all providers successful', data });
+  } catch (error) {
+    console.error('Error:', error.message);
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+export const getPoviderById = async (req, res) => {
+  try {
+    const { id } = await req.params;
+    const data = await prisma.provider.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        Service: true,
+        categories: true,
+        ProviderCategories: true,
+        Review: true,
+        Order: true,
+      },
+    });
+    return res.status(200).json({ message: 'Get provider successful', data });
   } catch (error) {
     console.error('Error:', error.message);
     return res.status(500).json({ error: error.message });

@@ -2,7 +2,12 @@ import { prisma } from '../config/prisma.js';
 
 export const getAllReports = async (req, res) => {
   try {
-    const data = await prisma.report.findMany();
+    const data = await prisma.report.findMany({
+      include: {
+        User: true,
+        Provider: true,
+      },
+    });
     return res
       .status(200)
       .json({ message: 'Get all reports successful', data });
@@ -18,6 +23,10 @@ export const getReportById = async (req, res) => {
     const data = await prisma.report.findUnique({
       where: {
         id,
+      },
+      include: {
+        User: true,
+        Provider: true,
       },
     });
 
