@@ -4,7 +4,11 @@ const ToastProvider = ({ children }) => {
   return (
     <>
       {children}
-      <ToastContainer autoClose={1000} draggable={false} />
+      <ToastContainer
+        autoClose={1000}
+        draggable={false}
+        position="bottom-right"
+      />
     </>
   );
 };

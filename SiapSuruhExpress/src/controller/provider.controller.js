@@ -9,6 +9,7 @@ export const getAllProviders = async (req, res) => {
         ProviderCategories: true,
         Review: true,
         Order: true,
+        User: true,
       },
     });
     return res
@@ -33,6 +34,7 @@ export const getPoviderById = async (req, res) => {
         ProviderCategories: true,
         Review: true,
         Order: true,
+        User: true,
       },
     });
     return res.status(200).json({ message: 'Get provider successful', data });

@@ -14,15 +14,15 @@ datasource db {
 }
 
 model User {
-  id           String     @id @default(uuid())
-  username     String     @unique
+  id           String    @id @default(uuid())
+  username     String    @unique
   password     String
-  email        String     @unique
-  phone_number Int?
-  address      String?
+  email        String    @unique
+  phone_number Int
+  address      String
   img_url      String?
-  role         Role       @default(USER)
-  Provider     Provider[]
+  role         Role      @default(USER)
+  Provider     Provider?
   Review       Review[]
   Order        Order[]
   Report       Report[]
@@ -36,14 +36,14 @@ enum Role {
 
 model Provider {
   id                 String               @id @default(uuid())
-  user_id            String
+  user_id            String               @unique
   rating             Float?
   total_reviews      Int?
   provider_name      String?
   bio                String?
   User               User                 @relation(fields: [user_id], references: [id])
   Categories         Category[]
-  Service            Service[]
+  Service            Service?
   ProviderCategories ProviderCategories[]
   Review             Review[]
   Order              Order[]
@@ -62,7 +62,7 @@ model Category {
 
 model Service {
   id          String   @id @default(uuid())
-  provider_id String
+  provider_id String   @unique
   title       String
   description String
   price       Int?

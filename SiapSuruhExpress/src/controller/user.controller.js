@@ -49,7 +49,7 @@ export const editUser = async (req, res) => {
 
     const existedUser = await prisma.user.findFirst({
       where: {
-        OR: [{ username }, { email }, { phone_number }],
+        OR: [{ username }, { email }, { phone_number: +phone_number }],
       },
     });
 
@@ -61,7 +61,7 @@ export const editUser = async (req, res) => {
     let updatedData = {
       username,
       email,
-      phone_number,
+      phone_number: +phone_number,
       address,
       img_url,
       role,

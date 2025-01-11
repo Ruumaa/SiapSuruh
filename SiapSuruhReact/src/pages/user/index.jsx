@@ -1,48 +1,20 @@
 import { IoLocationSharp } from 'react-icons/io5';
-// import { jasaData } from '../../utils/jasa.utils';
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { avatarURL } from '../../utils';
-import { fetchWithAuth } from '../../api/fetchWithAuth';
-import { useQuery } from '@tanstack/react-query';
 import Loading from '../../components/Loading';
 import ErrorPage from '../../components/ui/ErrorPage';
-
-const fetchServices = async () => {
-  const response = await fetchWithAuth('/services');
-  console.log(response.data, '<<<<<<<<<<<');
-  return response.data;
-};
+import { useProvider } from '../../features/pengguna/hooks/useUserHooks';
 
 const HomepageUser = () => {
-  //  TODO: FETCH FROM PROVIDER API
   const navigate = useNavigate();
-  const [searchQuery, setSearchQuery] = useState('');
+  const { isLoading, error, filteredData, searchQuery, setSearchQuery } =
+    useProvider();
 
   const handleClick = (id) => {
     navigate(`/user/home/service/${id}`);
   };
 
-  const {
-    data: services = [],
-    isLoading,
-    error,
-  } = useQuery({
-    queryKey: ['services'],
-    queryFn: fetchServices,
-  });
-
-  const filteredData = (services || []).filter(
-    (service) =>
-      service.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      service.kategori.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
   if (isLoading) return <Loading />;
   if (error) return <ErrorPage />;
-
-  console.log(services);
-  console.log(filteredData);
 
   return (
     <>
@@ -68,34 +40,45 @@ const HomepageUser = () => {
         {/* Card */}
         <div className="w-full grid grid-cols-2 gap-5 p-4">
           {/* Card */}
-          {filteredData.map((jasa) => {
-            return (
+          {filteredData.length > 0 ? (
+            filteredData.map((provider) => (
               <div
-                key={jasa.id}
+                key={provider.id}
                 className="w-full  bg-white shadow-lg rounded-lg p-8 flex items-center cursor-pointer hover:scale-105 hover:shadow-xl duration-300"
-                onClick={() => handleClick(jasa.id)}
+                onClick={() => handleClick(provider.id)}
               >
                 <div className="avatar">
                   <div className="size-24 rounded-full bg-gray-300">
-                    <img src={avatarURL(jasa.id)} alt="user-img" />
+                    <img src={'/img-placeholder.svg'} alt="user-img" />
                   </div>
                 </div>
                 <div className="ml-4 space-y-2">
-                  <h3 className="text-xl font-semibold">{jasa.namaJasa}</h3>
+                  <h3 className="text-xl font-semibold">
+                    {provider.Service.title}
+                  </h3>
                   <p className="font-semibold text-gray-600">
-                    {jasa.nama},{' '}
-                    <span className="font-normal">{jasa.lokasi}</span>
+                    {provider.provider_name},{' '}
+                    <span className="font-normal capitalize">
+                      {provider.User.address}
+                    </span>
                   </p>
                   <p className="text-gray-600 overflow-hidden overflow-ellipsis line-clamp-2">
-                    {jasa.deskripsi}
+                    {provider.Service?.description ?? 'Description'}
                   </p>
-                  <span className="badge badge-outline mt-2">
-                    {jasa.kategori}
-                  </span>
+                  {/* Render Categories */}
+                  <div className="flex flex-wrap gap-2 mt-2">
+                    {provider.Categories.map((category) => (
+                      <span key={category.id} className="badge badge-outline">
+                        {category.name ?? 'Unknown'}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
-            );
-          })}
+            ))
+          ) : (
+            <p className="font-semibold">Jasa Tidak Ditemukan</p>
+          )}
         </div>
       </div>
     </>

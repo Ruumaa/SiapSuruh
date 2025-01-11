@@ -7,6 +7,7 @@ export const useLoginUser = () => {
     onSuccess: (data) => {
       localStorage.setItem('token', data.accessToken);
       localStorage.setItem('role', data.role);
+      localStorage.setItem('user_id', data.id);
     },
     onError: (error) => {
       console.error('Login Error:', error.message);
@@ -20,6 +21,7 @@ export const useLoginJasa = () => {
     onSuccess: (data) => {
       localStorage.setItem('token', data.accessToken);
       localStorage.setItem('role', data.role);
+      localStorage.setItem('user_id', data.id);
     },
     onError: (error) => {
       console.error('Login Error:', error.message);

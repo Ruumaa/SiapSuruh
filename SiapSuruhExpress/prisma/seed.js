@@ -10,23 +10,26 @@ const prisma = new PrismaClient();
 
 async function main() {
   // Bersihkan database terlebih dahulu (opsional)
-  //   await prisma.report.deleteMany()
-  //   await prisma.review.deleteMany()
-  //   await prisma.order.deleteMany()
-  //   await prisma.providerCategories.deleteMany()
-  //   await prisma.service.deleteMany()
-  //   await prisma.category.deleteMany()
-  //   await prisma.provider.deleteMany()
-  //   await prisma.user.deleteMany()
+  await prisma.report.deleteMany();
+  await prisma.review.deleteMany();
+  await prisma.order.deleteMany();
+  await prisma.providerCategories.deleteMany();
+  await prisma.service.deleteMany();
+  await prisma.category.deleteMany();
+  await prisma.provider.deleteMany();
+  await prisma.user.deleteMany();
 
-  const hashedPassword = await hash(password, 10);
+  const hashedPassword = async (password) => await hash(password, 10);
+  const userPass = await hashedPassword('user');
+  const jasaPass = await hashedPassword('jasa');
+  const adminPass = await hashedPassword('admin');
 
   // Create Users
   const user1 = await prisma.user.create({
     data: {
-      username: 'john_doe',
-      email: 'john@example.com',
-      password: 'test',
+      username: 'user',
+      email: 'user@example.com',
+      password: userPass,
       phone_number: 628123456789,
       address: 'Jl. Contoh No. 123',
       role: Role.USER,
@@ -35,20 +38,22 @@ async function main() {
 
   const user2 = await prisma.user.create({
     data: {
-      username: 'admin_user',
+      username: 'admin',
       email: 'admin@example.com',
-      password: 'test',
+      password: jasaPass,
       phone_number: 628987654321,
+      address: 'Jl. Contoh No. 123',
       role: Role.ADMIN,
     },
   });
 
   const user3 = await prisma.user.create({
     data: {
-      username: 'provider_user',
-      email: 'provider@example.com',
-      password: 'test',
+      username: 'jasa',
+      email: 'jasa@example.com',
+      password: adminPass,
       phone_number: 628567891234,
+      address: 'Jl. Contoh No. 123',
       role: Role.PROVIDER,
     },
   });
@@ -72,10 +77,13 @@ async function main() {
   const provider1 = await prisma.provider.create({
     data: {
       user_id: user3.id,
-      provider_name: 'Pro Cleaning Services',
+      provider_name: 'Joko',
       bio: 'Professional cleaning service with 5 years of experience',
       rating: 4.5,
       total_reviews: 100,
+      Categories: {
+        connect: [{ id: category1.id }], // Hubungkan dengan kategori
+      },
     },
   });
 
