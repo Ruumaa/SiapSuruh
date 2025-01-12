@@ -38,6 +38,7 @@ import {
   editOrder,
   getAllOrders,
   getOrderById,
+  getOrdersByUserId,
 } from '../controller/order.controller.js';
 import {
   createReport,
@@ -141,6 +142,7 @@ router.delete(
 // Order
 router.get('/api/orders', authorization, getAllOrders);
 router.get('/api/orders/:id', authorization, getOrderById);
+router.get('/api/orders/user/:id', authorization, getOrdersByUserId);
 router.post('/api/orders', authorization, createOrder);
 router.put('/api/orders/:id', authorization, editOrder);
 router.delete('/api/orders/:id', authorization, deleteOrder);

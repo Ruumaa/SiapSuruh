@@ -1,8 +1,9 @@
 import { useForm } from 'react-hook-form';
-import { useEditProfile, useGetUserById } from '../hooks/useUserHooks';
+import { useEditProfile } from '../hooks/useUserHooks';
 import { toast } from 'react-toastify';
 import Loading from '../../../components/Loading';
 import ErrorText from '../../../components/ui/ErrorText';
+import { fetchWithAuth } from '../../../api/fetchWithAuth';
 
 const FormProfile = () => {
   const user_id = localStorage.getItem('user_id');
@@ -11,9 +12,12 @@ const FormProfile = () => {
     handleSubmit,
     formState: { errors, dirtyFields, isDirty },
   } = useForm({
-    defaultValues: async () =>
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      await useGetUserById(user_id),
+    defaultValues: async () => {
+      const respone = await fetchWithAuth(`/users/${user_id}`);
+      return respone.data;
+    },
+
+    // defaultValues: async () => useGetUserById(user_id),
   });
 
   const { mutate: editUser, isPending } = useEditProfile();
@@ -21,16 +25,10 @@ const FormProfile = () => {
   const handleEditUser = (formValues) => {
     const updatedData = {};
 
-    // Hanya masukkan field yang berubah (dirtyFields) ke dalam updatedData
     Object.keys(dirtyFields).forEach((field) => {
       updatedData[field] = formValues[field];
     });
 
-    // Jika tidak ada perubahan, hindari memanggil API
-    if (Object.keys(updatedData).length === 0) {
-      toast.info('Tidak ada perubahan untuk disimpan.');
-      return;
-    }
     editUser(
       {
         id: user_id,
@@ -44,6 +42,7 @@ const FormProfile = () => {
   };
 
   if (isPending) return <Loading />;
+
   return (
     <>
       {/* Form */}
@@ -54,23 +53,31 @@ const FormProfile = () => {
         <h2 className="text-2xl font-bold text-center">Perbarui Profile</h2>
         <div className="flex items-center justify-center w-full my-6">
           <div className="w-1/2 flex items-center justify-center">
-            <div className="size-60 rounded-full bg-gray-200"></div>
+            <div className=" size-60 rounded-full">
+              <img
+                src="/img-placeholder.svg"
+                className="rounded-full"
+                alt="user-img"
+              />
+            </div>
           </div>
-          <div className="w-1/2 space-y-6 ">
+          <div className="w-1/2 space-y-4 ">
             {/* Username */}
             <div>
+              <label className="font-semibold sm pl-1">Username</label>
               <input
                 type="text"
                 placeholder="Username"
                 {...register('username', { required: 'Username is required' })}
                 className="input input-bordered  focus:outline-none w-full "
               />
-              {errors.address && (
+              {errors.username && (
                 <ErrorText errorMessage={errors.address.message} />
               )}
             </div>
             {/* Email */}
             <div>
+              <label className="font-semibold sm pl-1">Email</label>
               <input
                 type="email"
                 placeholder="Email"
@@ -83,6 +90,7 @@ const FormProfile = () => {
             </div>
             {/* No HP */}
             <div>
+              <label className="font-semibold sm pl-1">Nomor Handphone</label>
               <input
                 type="tel"
                 {...register('phone_number', {
@@ -101,6 +109,7 @@ const FormProfile = () => {
             </div>
             {/* Alamat */}
             <div>
+              <label className="font-semibold sm pl-1">Alamat</label>
               <input
                 type="text"
                 {...register('address', { required: 'Address is required' })}

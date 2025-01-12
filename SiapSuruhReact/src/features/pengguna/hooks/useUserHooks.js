@@ -1,6 +1,14 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
-import { editUser, fetchProviders, getUserById } from '../services/userService';
+import {
+  createOrder,
+  editOrderStatus,
+  editUser,
+  fetchProviders,
+  getOrdersByUserId,
+  getProviderById,
+  getUserById,
+} from '../services/userService';
 
 export const useProvider = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -33,9 +41,43 @@ export const useProvider = () => {
   };
 };
 
-export const useGetUserById = async (id) => {
-  const data = await getUserById(id);
-  return data;
+export const useProviderById = (id) => {
+  const {
+    data: provider = {},
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ['providers', id],
+    queryFn: () => getProviderById(id),
+  });
+
+  return { provider, isLoading, error };
+};
+
+export const useGetUserById = (id) => {
+  const {
+    data: user,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ['users', id],
+    queryFn: () => getUserById(id),
+  });
+
+  return { user, isLoading, error };
+};
+
+export const useOrdersByUserId = (id) => {
+  const {
+    data: orders = [],
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ['orders', id],
+    queryFn: () => getOrdersByUserId(id),
+  });
+
+  return { orders, isLoading, error };
 };
 
 export const useEditProfile = () => {
@@ -46,6 +88,31 @@ export const useEditProfile = () => {
     },
     onError: (error) => {
       console.error('Edit Error:', error);
+    },
+  });
+};
+
+export const useCreateOrder = () => {
+  return useMutation({
+    mutationFn: createOrder,
+    onSuccess: (data) => {
+      console.log('Create Order Success:', data);
+    },
+    onError: (error) => {
+      console.error('Create Order Error:', error);
+    },
+  });
+};
+
+export const useEditOrderStatus = () => {
+  return useMutation({
+    mutationFn: editOrderStatus,
+    onSuccess: (data) => {
+      console.log('Edit Order Status Success:', data);
+      window.location.reload();
+    },
+    onError: (error) => {
+      console.error('Edit Order Status Error:', error);
     },
   });
 };

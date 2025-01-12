@@ -40,7 +40,7 @@ async function main() {
     data: {
       username: 'admin',
       email: 'admin@example.com',
-      password: jasaPass,
+      password: adminPass,
       phone_number: 628987654321,
       address: 'Jl. Contoh No. 123',
       role: Role.ADMIN,
@@ -51,7 +51,7 @@ async function main() {
     data: {
       username: 'jasa',
       email: 'jasa@example.com',
-      password: adminPass,
+      password: jasaPass,
       phone_number: 628567891234,
       address: 'Jl. Contoh No. 123',
       role: Role.PROVIDER,

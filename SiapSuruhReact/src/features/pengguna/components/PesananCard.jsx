@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import StatusButton from '../../../components/ui/StatusButton';
 import { FaLocationDot } from 'react-icons/fa6';
 import { IDRConverter } from '../../../utils/IDRConverter';
-import ReviewModal from './ReviewModal';
+import StatusButton from '../../../components/ui/StatusButton';
+import DetailsModal from './DetailsModal';
 
 const PesananCard = ({ orders }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,6 +13,12 @@ const PesananCard = ({ orders }) => {
     setOrder(orders.find((order) => order.id === id));
   };
 
+  if (orders.length === 0)
+    return (
+      <p className="text-lg mt-1 text-gray-500 font-medium">
+        Belum ada pesanan
+      </p>
+    );
   return (
     <>
       <div className="space-y-4 mt-5">
@@ -54,7 +60,10 @@ const PesananCard = ({ orders }) => {
           </div>
         ))}
       </div>
-      <ReviewModal isOpen={isOpen} handleModal={handleModal} order={order} />
+
+      {order && (
+        <DetailsModal isOpen={isOpen} handleModal={handleModal} order={order} />
+      )}
     </>
   );
 };

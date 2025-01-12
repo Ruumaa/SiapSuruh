@@ -1,4 +1,4 @@
-const RevieModal = ({ isOpen, handleModal, pesanan }) => {
+const ReviewModal = ({ isOpen, handleModal, order }) => {
   const isProvider = location.pathname.startsWith('/provider/home');
 
   return (
@@ -14,50 +14,50 @@ const RevieModal = ({ isOpen, handleModal, pesanan }) => {
             </div>
 
             {/* Order Details with aligned keys and bold values */}
-            <div className="text-gray-700 space-y-3">
+            {/* <div className="text-gray-700 space-y-3">
               <div className="flex justify-between">
                 <span className="w-32 text-gray-800">Kategori</span>
-                <span className="font-bold">{pesanan.kategori}</span>
+                <span className="font-bold">{order.kategori}</span>
               </div>
               <div className="flex justify-between">
                 <span className="w-32  text-gray-800">Tanggal</span>
                 <span className="font-bold">
-                  {pesanan.tanggal} - {pesanan.jam}
+                  {order.tanggal}
                 </span>
               </div>
               <div className="flex justify-between">
                 <span className="w-32  text-gray-800">Lokasi</span>
-                <span className="font-bold">{pesanan.lokasi}</span>
+                <span className="font-bold">{order.lokasi}</span>
               </div>
               <div className="flex justify-between">
                 <span className="w-32  text-gray-800">Detail Jasa</span>
                 <span className="font-bold clear-start">
-                  {pesanan.detailjasa}
+                  {order.detailjasa}
                 </span>
               </div>
               <div className="flex justify-between">
                 <span className="w-32  text-gray-800">Metode Pembayaran</span>
-                <span className="font-bold">{pesanan.metode_pembayaran}</span>
+                <span className="font-bold">{order.metode_pembayaran}</span>
               </div>
               <div className="flex justify-between">
                 <span className="w-32  text-gray-800">Harga</span>
                 <span className="font-bold text-green-600">
-                  Rp. {pesanan.harga.toLocaleString('id-ID')}
+                  Rp. {order.harga.toLocaleString('id-ID')}
                 </span>
               </div>
               <div className="flex justify-between">
                 <span className="w-32  text-gray-800">Status</span>
                 <span
                   className={`font-bold ${
-                    pesanan.status === 'Selesai'
+                    order.status === 'Selesai'
                       ? 'text-green-500'
                       : 'text-yellow-500'
                   }`}
                 >
-                  {pesanan.status}
+                  {order.status}
                 </span>
               </div>
-            </div>
+            </div> */}
 
             {/* Action Buttons */}
             <div className="mt-6 flex justify-end space-x-4">
@@ -67,7 +67,7 @@ const RevieModal = ({ isOpen, handleModal, pesanan }) => {
               >
                 Tutup
               </button>
-              {pesanan.status !== 'Selesai' && (
+              {order.status !== 'Selesai' && (
                 <button
                   className="btn btn-sm h-10 bg-green-600 text-white hover:bg-green-700"
                   onClick={handleModal}
@@ -84,4 +84,4 @@ const RevieModal = ({ isOpen, handleModal, pesanan }) => {
   );
 };
 
-export default RevieModal;
+export default ReviewModal;

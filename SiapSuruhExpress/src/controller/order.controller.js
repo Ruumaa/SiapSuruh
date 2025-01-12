@@ -31,6 +31,29 @@ export const getOrderById = async (req, res) => {
   }
 };
 
+export const getOrdersByUserId = async (req, res) => {
+  try {
+    const { user_id } = req.params;
+    const data = await prisma.order.findMany({
+      where: { user_id },
+      include: {
+        User: true,
+        Service: true,
+        Provider: true,
+      },
+    });
+    if (data.length === 0) {
+      return res.status(404).json({ message: 'No orders found for this user' });
+    }
+    return res
+      .status(200)
+      .json({ message: 'Get orders by user ID successful', data });
+  } catch (error) {
+    console.error('Error:', error.message);
+    res.status(500).json({ error: error.message });
+  }
+};
+
 export const createOrder = async (req, res) => {
   try {
     const {
@@ -100,7 +123,7 @@ export const editOrder = async (req, res) => {
         status,
         order_date,
         total_price,
-        payment_status,
+        payment_status: status === 'COMPLETED' ? 'COMPLETED' : 'PENDING',
       },
     });
 

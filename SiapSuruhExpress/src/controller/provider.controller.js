@@ -23,14 +23,14 @@ export const getAllProviders = async (req, res) => {
 
 export const getPoviderById = async (req, res) => {
   try {
-    const { id } = await req.params;
+    const { id } = req.params;
     const data = await prisma.provider.findUnique({
       where: {
         id,
       },
       include: {
         Service: true,
-        categories: true,
+        Categories: true,
         ProviderCategories: true,
         Review: true,
         Order: true,

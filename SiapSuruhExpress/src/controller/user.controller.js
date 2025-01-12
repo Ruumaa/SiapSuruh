@@ -43,25 +43,28 @@ export const getUserById = async (req, res) => {
 
 export const editUser = async (req, res) => {
   try {
-    const { id } = await req.params;
+    const { id } = req.params;
+
     const { username, email, password, phone_number, address, img_url, role } =
       await req.body;
 
+    if (!id) return res.status(400).json({ message: 'User ID is required' });
+
     const existedUser = await prisma.user.findFirst({
       where: {
-        OR: [{ username }, { email }, { phone_number: +phone_number }],
+        OR: [{ username }, { email }],
       },
     });
 
     if (existedUser)
       return res
         .status(400)
-        .json({ message: 'Username, Email or Phone Number already exists' });
+        .json({ message: 'Username or Email already exists' });
 
     let updatedData = {
       username,
       email,
-      phone_number: +phone_number,
+      phone_number: phone_number ? +phone_number : undefined,
       address,
       img_url,
       role,

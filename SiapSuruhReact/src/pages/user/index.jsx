@@ -59,11 +59,12 @@ const HomepageUser = () => {
                   <p className="font-semibold text-gray-600">
                     {provider.provider_name},{' '}
                     <span className="font-normal capitalize">
-                      {provider.User.address}
+                      {provider.provider_name}
                     </span>
                   </p>
                   <p className="text-gray-600 overflow-hidden overflow-ellipsis line-clamp-2">
-                    {provider.Service?.description ?? 'Description'}
+                    {provider.Service?.description ??
+                      'Provider does not have a description'}
                   </p>
                   {/* Render Categories */}
                   <div className="flex flex-wrap gap-2 mt-2">

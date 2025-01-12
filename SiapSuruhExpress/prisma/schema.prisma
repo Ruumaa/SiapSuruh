@@ -133,7 +133,6 @@ enum ActionTaken {
 
 enum OrderStatus {
   PENDING
-  ACCEPTED
   PROCCESSED
   COMPLETED
   REJECTED

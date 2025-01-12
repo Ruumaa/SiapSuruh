@@ -1,9 +1,42 @@
-const FormModal = ({
-  isModalOpen,
-  handleModal,
-  paymentMethod,
-  handlePaymentMethod,
-}) => {
+import { useForm } from 'react-hook-form';
+import { useCreateOrder } from '../hooks/useUserHooks';
+import { toast } from 'react-toastify';
+import ErrorText from '../../../components/ui/ErrorText';
+import { useNavigate } from 'react-router-dom';
+
+const FormModal = ({ isModalOpen, handleModal, provider_id, service_id }) => {
+  const user_id = localStorage.getItem('user_id');
+  const navigate = useNavigate();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const { mutate: createOrder, isPending } = useCreateOrder();
+
+  const handleOrder = ({ details, location, order_date, total_price }) =>
+    createOrder(
+      {
+        user_id,
+        service_id,
+        provider_id,
+        details,
+        location,
+        order_date,
+        total_price,
+      },
+      {
+        onSuccess: () => {
+          handleModal();
+          navigate('/user/home/pesanan');
+          toast.success('Create Order Success');
+        },
+        onError: (error) => toast.error(`${error.message}`),
+      }
+    );
+
   return (
     <>
       {isModalOpen && (
@@ -11,19 +44,7 @@ const FormModal = ({
           <div className="modal modal-open">
             <div className="modal-box">
               <h2 className="font-semibold text-lg">Form Permintaan Jasa</h2>
-              <form>
-                <div className="form-control mb-4">
-                  <label className="label">
-                    <span className="label-text">Jasa yang Dibutuhkan</span>
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Masukkan jasa yang dibutuhkan"
-                    className="input input-bordered"
-                    required
-                  />
-                </div>
-
+              <form onSubmit={handleSubmit(handleOrder)}>
                 <div className="form-control mb-4">
                   <label className="label">
                     <span className="label-text">Detail Jasa</span>
@@ -31,27 +52,8 @@ const FormModal = ({
                   <textarea
                     placeholder="Detail tentang jasa"
                     className="textarea textarea-bordered"
-                    required
-                  ></textarea>
-                </div>
-
-                <div className="form-control mb-4">
-                  <label className="label">
-                    <span className="label-text">Metode Pembayaran</span>
-                  </label>
-                  <select
-                    className="select select-bordered"
-                    value={paymentMethod} // Set the value from state
-                    onChange={handlePaymentMethod} // Handle change
-                    required
-                  >
-                    <option value="" disabled>
-                      Pilih metode pembayaran
-                    </option>
-                    <option value="Cash">Cash</option>
-                    <option value="Transfer Bank">Transfer Bank</option>
-                    <option value="Dompet Digital">Dompet Digital</option>
-                  </select>
+                    {...register('details', { required: true })}
+                  />
                 </div>
 
                 <div className="form-control mb-4">
@@ -62,7 +64,7 @@ const FormModal = ({
                     type="text"
                     placeholder="Masukkan lokasi"
                     className="input input-bordered"
-                    required
+                    {...register('location', { required: true })}
                   />
                 </div>
 
@@ -73,15 +75,30 @@ const FormModal = ({
                   <input
                     type="date"
                     className="input input-bordered"
-                    required
+                    {...register('order_date', { required: true })}
                   />
                 </div>
 
                 <div className="form-control mb-4">
                   <label className="label">
-                    <span className="label-text">Jam (Opsional)</span>
+                    <span className="label-text">Harga Jasa </span>
                   </label>
-                  <input type="time" className="input input-bordered" />
+                  <input
+                    type="text"
+                    className={`input input-bordered ${
+                      errors.total_price ? 'input-error' : ''
+                    }`}
+                    placeholder="Harga Jasa yang ingin dibayarkan"
+                    {...register('total_price', {
+                      pattern: {
+                        value: /^[0-9]*$/,
+                        message: 'Harga jasa hanya boleh berisi angka.',
+                      },
+                    })}
+                  />
+                  {errors.total_price && (
+                    <ErrorText errorMessage={errors.total_price.message} />
+                  )}
                 </div>
 
                 <div className="modal-action">
@@ -92,8 +109,12 @@ const FormModal = ({
                   >
                     Tutup
                   </button>
-                  <button type="submit" className="btn btn-primary">
-                    Kirim
+                  <button
+                    disabled={isPending}
+                    type="submit"
+                    className="btn btn-primary hover:text-white"
+                  >
+                    {isPending ? 'Mendaftarkan...' : 'Pesan'}
                   </button>
                 </div>
               </form>
