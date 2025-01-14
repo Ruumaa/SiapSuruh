@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import {
   createOrder,
+  createReport,
   editOrderStatus,
   editUser,
   fetchProviders,
@@ -121,6 +122,30 @@ export const useEditOrderStatus = () => {
     },
     onError: (error) => {
       console.error('Edit Order Status Error:', error);
+      toast.error(`${error.message}`);
+    },
+  });
+};
+
+export const useReport = () => {
+  const [isOpenReport, setIsOpenReport] = useState(false);
+
+  const handleReportModal = () => {
+    setIsOpenReport((prevState) => !prevState);
+  };
+
+  return { isOpenReport, handleReportModal };
+};
+
+export const useCreateReport = () => {
+  return useMutation({
+    mutationFn: createReport,
+    onSuccess: (data) => {
+      console.log('Create Report Success:', data);
+      toast.success('Report Created!');
+    },
+    onError: (error) => {
+      console.error('Create Report Error:', error);
       toast.error(`${error.message}`);
     },
   });

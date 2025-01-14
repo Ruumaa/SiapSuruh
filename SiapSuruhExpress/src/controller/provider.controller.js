@@ -35,6 +35,7 @@ export const getPoviderById = async (req, res) => {
         Review: true,
         Order: true,
         User: true,
+        Report: true,
       },
     });
     return res.status(200).json({ message: 'Get provider successful', data });

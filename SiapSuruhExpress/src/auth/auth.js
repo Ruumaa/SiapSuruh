@@ -126,4 +126,42 @@ router.post('/login/provider', async (req, res, next) => {
   }
 });
 
+router.post('/login/admin', async (req, res, next) => {
+  try {
+    const { username, password } = await req.body;
+    const existingUser = await prisma.user.findUnique({
+      where: {
+        username,
+      },
+    });
+    if (!existingUser)
+      return res.status(404).json({ message: 'User not found' });
+
+    const passwordMatch = await compare(password, existingUser.password);
+    if (!passwordMatch)
+      return res.status(401).json({ message: 'Invalid credentials' });
+
+    if (existingUser.role !== 'ADMIN') {
+      return res
+        .status(403)
+        .json({ message: 'Access denied. Not authorized as ADMIN.' });
+    }
+
+    const accessToken = generateToken({
+      id: existingUser.id,
+      username: existingUser.username,
+      role: existingUser.role,
+    });
+
+    return res.status(200).json({
+      message: 'Sign in success',
+      accessToken,
+      id: existingUser.id,
+      role: existingUser.role,
+    });
+  } catch (error) {
+    console.error('Error:', error.message);
+    res.status(500).json({ error: error.message });
+  }
+});
 export { router as AuthRouter };

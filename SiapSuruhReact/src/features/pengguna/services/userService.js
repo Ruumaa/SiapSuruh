@@ -54,3 +54,11 @@ export const editOrderStatus = async ({ id, data }) => {
   });
   return response.data;
 };
+
+export const createReport = async (data) => {
+  const response = await fetchWithAuth('/reports', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
+  return response.data;
+};

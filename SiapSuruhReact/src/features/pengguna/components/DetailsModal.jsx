@@ -1,9 +1,11 @@
 import { IDRConverter } from '../../../utils/IDRConverter';
 import { formatDate } from '../../../utils/ParseDate';
-import { useEditOrderStatus } from '../hooks/useUserHooks';
+import { useEditOrderStatus, useReport } from '../hooks/useUserHooks';
+import ReportModal from './ReportModal';
 
 const DetailsModal = ({ isOpen, handleModal, order }) => {
   const { mutate: editOrder, isPending } = useEditOrderStatus();
+  const { isOpenReport, handleReportModal } = useReport();
 
   const handleEditOrderStatus = (id, status) => {
     editOrder({ id, data: { status } });
@@ -76,9 +78,7 @@ const DetailsModal = ({ isOpen, handleModal, order }) => {
                   <button
                     disabled={order.status !== 'COMPLETED'}
                     className="btn btn-sm w-full h-10 bg-red-600 text-white hover:bg-red-700 disabled:bg-gray-100 disabled:text-gray-300"
-                    onClick={() => {
-                      // TODO: 'post report'
-                    }}
+                    onClick={handleReportModal}
                   >
                     {isPending ? 'Loading...' : 'Laporkan Pesanan'}
                   </button>
@@ -100,6 +100,13 @@ const DetailsModal = ({ isOpen, handleModal, order }) => {
           </div>
         </div>
       )}
+      <ReportModal
+        isOpenReport={isOpenReport}
+        handleModal={handleModal}
+        handleReportModal={handleReportModal}
+        provider_id={order.provider_id}
+        user_id={order.user_id}
+      />
     </>
   );
 };
