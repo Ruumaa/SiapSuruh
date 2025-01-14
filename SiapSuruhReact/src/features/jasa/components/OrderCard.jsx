@@ -2,9 +2,9 @@ import { useState } from 'react';
 import StatusButton from '../../../components/ui/StatusButton';
 import { FaLocationDot } from 'react-icons/fa6';
 import { IDRConverter } from '../../../utils/IDRConverter';
-import ReviewModal from './ReviewModal';
+import DetailsModalProvider from './DetailsModalProvider';
 
-const PesananCard = ({ orders }) => {
+const OrderCard = ({ orders }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [order, setOrder] = useState();
 
@@ -33,9 +33,8 @@ const PesananCard = ({ orders }) => {
                   <img src={'/img-placeholder.svg'} alt="user-img" />
                 </div>
               </div>
-              <h3>
-                {order.Provider.provider_name},{' '}
-                <span>{order.Service.title}</span>
+              <h3 className="font-normal">
+                {order.User.email} {/* <span>{order.Service.title}</span> */}
               </h3>
             </div>
 
@@ -54,9 +53,13 @@ const PesananCard = ({ orders }) => {
           </div>
         ))}
       </div>
-      <ReviewModal isOpen={isOpen} handleModal={handleModal} order={order} />
+      <DetailsModalProvider
+        isOpen={isOpen}
+        handleModal={handleModal}
+        order={order}
+      />
     </>
   );
 };
 
-export default PesananCard;
+export default OrderCard;

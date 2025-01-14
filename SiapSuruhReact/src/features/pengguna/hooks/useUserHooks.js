@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import {
   createOrder,
@@ -9,6 +9,7 @@ import {
   getProviderById,
   getUserById,
 } from '../services/userService';
+import { toast } from 'react-toastify';
 
 export const useProvider = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -105,14 +106,17 @@ export const useCreateOrder = () => {
 };
 
 export const useEditOrderStatus = () => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: editOrderStatus,
     onSuccess: (data) => {
+      queryClient.invalidateQueries('orders');
       console.log('Edit Order Status Success:', data);
-      window.location.reload();
+      toast.success('Order Status Updated!');
     },
     onError: (error) => {
       console.error('Edit Order Status Error:', error);
+      toast.error(`${error.message}`);
     },
   });
 };

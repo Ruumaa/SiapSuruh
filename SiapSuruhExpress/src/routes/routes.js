@@ -31,6 +31,7 @@ import {
   editProvider,
   getAllProviders,
   getPoviderById,
+  getProviderByUserId,
 } from '../controller/provider.controller.js';
 import {
   createOrder,
@@ -120,6 +121,7 @@ router.delete(
 // Provider
 router.get('/api/providers', authorization, getAllProviders);
 router.get('/api/providers/:id', authorization, getPoviderById);
+router.get('/api/providers/user/:user_id', authorization, getProviderByUserId);
 router.post(
   '/api/providers',
   authorization,

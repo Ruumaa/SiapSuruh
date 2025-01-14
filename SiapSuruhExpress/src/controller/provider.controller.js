@@ -44,6 +44,39 @@ export const getPoviderById = async (req, res) => {
   }
 };
 
+export const getProviderByUserId = async (req, res) => {
+  try {
+    const { user_id } = req.params;
+    if (!user_id) {
+      return res.status(400).json({ error: 'User ID is required' });
+    }
+    const data = await prisma.provider.findUnique({
+      where: {
+        user_id,
+      },
+      include: {
+        Service: true,
+        Categories: true,
+        ProviderCategories: true,
+        Review: true,
+        Order: {
+          include: {
+            User: true,
+            Service: true,
+          },
+        },
+        User: true,
+      },
+    });
+    return res
+      .status(200)
+      .json({ message: 'Get provider by user id successful', data });
+  } catch (error) {
+    console.error('Error:', error.message);
+    return res.status(500).json({ error: error.message });
+  }
+};
+
 export const createProvider = async (req, res) => {
   try {
     const { user_id } = req.body;

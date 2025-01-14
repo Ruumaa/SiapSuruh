@@ -1,10 +1,9 @@
 import { IDRConverter } from '../../../utils/IDRConverter';
+import { useEditOrderStatus } from '../../pengguna/hooks/useUserHooks';
 import { formatDate } from '../../../utils/ParseDate';
-import { useEditOrderStatus } from '../hooks/useUserHooks';
 
-const DetailsModal = ({ isOpen, handleModal, order }) => {
+const DetailsModalProvider = ({ isOpen, handleModal, order }) => {
   const { mutate: editOrder, isPending } = useEditOrderStatus();
-
   const handleEditOrderStatus = (id, status) => {
     editOrder({ id, data: { status } });
   };
@@ -64,6 +63,7 @@ const DetailsModal = ({ isOpen, handleModal, order }) => {
             </div>
 
             {/* Action Buttons */}
+
             <div className="mt-6 justify-end w-full overflow-hidden">
               <button
                 className="btn btn-sm w-full mt-2 h-10 bg-gray-100 text-gray-600 hover:bg-gray-200 "
@@ -74,25 +74,26 @@ const DetailsModal = ({ isOpen, handleModal, order }) => {
               <div className="flex gap-2 mt-2">
                 <div className="w-1/2">
                   <button
-                    disabled={order.status !== 'COMPLETED'}
+                    disabled={order.status !== 'PENDING'}
                     className="btn btn-sm w-full h-10 bg-red-600 text-white hover:bg-red-700 disabled:bg-gray-100 disabled:text-gray-300"
                     onClick={() => {
-                      // TODO: 'post report'
+                      handleModal();
+                      handleEditOrderStatus(order.id, 'REJECTED');
                     }}
                   >
-                    {isPending ? 'Loading...' : 'Laporkan Pesanan'}
+                    {isPending ? 'Loading...' : 'Tolak Pesanan'}
                   </button>
                 </div>
                 <div className="w-1/2">
                   <button
-                    disabled={order.status !== 'PROCCESSED'}
+                    disabled={order.status !== 'PENDING'}
                     className="btn btn-sm w-full h-10 bg-green-600 text-white hover:bg-green-700 disabled:bg-gray-100 disabled:text-gray-300"
                     onClick={() => {
                       handleModal();
-                      handleEditOrderStatus(order.id, 'COMPLETED');
+                      handleEditOrderStatus(order.id, 'PROCCESSED');
                     }}
                   >
-                    {isPending ? 'Loading...' : 'Selesaikan Pesanan'}
+                    {isPending ? 'Loading...' : 'Terima Pesanan'}
                   </button>
                 </div>
               </div>
@@ -104,4 +105,4 @@ const DetailsModal = ({ isOpen, handleModal, order }) => {
   );
 };
 
-export default DetailsModal;
+export default DetailsModalProvider;
