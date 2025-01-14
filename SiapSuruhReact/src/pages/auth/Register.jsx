@@ -133,7 +133,7 @@ const Register = () => {
             <label className="flex items-center space-x-2">
               <input
                 type="radio"
-                value="JASA"
+                value="PROVIDER"
                 {...register('role', { required: 'Role is required' })}
                 className="radio radio-black dark:radio-white"
               />

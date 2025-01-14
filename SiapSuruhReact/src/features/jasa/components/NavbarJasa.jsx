@@ -8,6 +8,9 @@ const NavbarJasa = ({ handleLogout }) => {
         SiapSuruh.
       </Link>
       <div className="flex items-center gap-x-4">
+        <Link className="btn btn-ghost btn-sm h-10" to="/provider/home/service">
+          Service
+        </Link>
         <Link className="btn btn-ghost btn-sm h-10" to="/provider/home/profile">
           Profile
         </Link>

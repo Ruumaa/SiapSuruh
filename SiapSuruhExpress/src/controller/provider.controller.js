@@ -94,6 +94,76 @@ export const createProvider = async (req, res) => {
   }
 };
 
+export const editProviderService = async (req, res) => {
+  try {
+    const { user_id } = req.params;
+    const { provider_name, bio, title, description, price } = req.body;
+
+    const provider = await prisma.provider.findUnique({
+      where: { user_id },
+      include: {
+        Service: true,
+      },
+    });
+
+    if (!provider) {
+      return res.status(404).json({ error: 'Provider not found' });
+    }
+
+    let serviceData;
+    if (provider.Service) {
+      serviceData = await prisma.service.update({
+        where: { provider_id: provider.id },
+        data: {
+          title,
+          description,
+          price,
+        },
+      });
+    } else {
+      serviceData = await prisma.service.create({
+        data: {
+          provider_id: provider.id,
+          title,
+          description,
+          price,
+        },
+      });
+    }
+
+    // Update informasi provider
+    const updatedProvider = await prisma.provider.update({
+      where: { user_id },
+      data: {
+        provider_name,
+        bio,
+        Service: provider.Service
+          ? {
+              update: {
+                title,
+                description,
+                price,
+              },
+            }
+          : undefined,
+      },
+      include: {
+        Service: true,
+      },
+    });
+
+    return res.status(200).json({
+      message: provider.Service
+        ? 'Provider and service updated successfully'
+        : 'Provider and service created successfully',
+      data: updatedProvider,
+    });
+  } catch (error) {
+    console.error('Error:', error.message);
+    return res.status(500).json({ error: error.message });
+  }
+};
+
 export const editProvider = async (req, res) => {
   try {
     const { id } = await req.params;

@@ -14,6 +14,7 @@ import Pesanan from './pages/user/pesanan';
 import ProfileUser from './pages/user/profile';
 import ProfileJasa from './pages/jasa/profile';
 import RequireAuth from './middleware/requireAuth';
+import ProviderService from './pages/jasa/provider';
 
 const App = () => {
   return (
@@ -31,6 +32,10 @@ const App = () => {
           <Route element={<RequireAuth allowedRoles={['PROVIDER']} />}>
             <Route path="/provider/home" element={<HomepageJasa />} />
             <Route path="/provider/home/profile" element={<ProfileJasa />} />
+            <Route
+              path="/provider/home/service/"
+              element={<ProviderService />}
+            />
           </Route>
 
           {/* User */}

@@ -29,6 +29,7 @@ import {
   createProvider,
   deleteProvider,
   editProvider,
+  editProviderService,
   getAllProviders,
   getPoviderById,
   getProviderByUserId,
@@ -127,6 +128,11 @@ router.post(
   authorization,
   roleAuthorization(['ADMIN', 'PROVIDER']),
   createProvider
+);
+router.put(
+  '/api/providers/service/:user_id',
+  authorization,
+  editProviderService
 );
 router.put(
   '/api/providers/:id',

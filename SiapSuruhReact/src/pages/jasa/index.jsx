@@ -2,12 +2,17 @@ import Loading from '../../components/Loading';
 import ErrorPage from '../../components/ui/ErrorPage';
 import Rating from '../../components/ui/Rating';
 import OrderCard from '../../features/jasa/components/OrderCard';
-import { useProviderByUserId } from '../../features/jasa/hooks/providerHooks';
+import {
+  useProviderByUserId,
+  useServiceCheck,
+} from '../../features/jasa/hooks/providerHooks';
 import { IDRConverter } from '../../utils/IDRConverter';
 
 const HomepageJasa = () => {
   const user_id = localStorage.getItem('user_id');
   const { provider, isLoading, error } = useProviderByUserId(user_id);
+
+  useServiceCheck(provider);
 
   if (isLoading) return <Loading />;
   if (error) return <ErrorPage />;
@@ -73,7 +78,7 @@ const HomepageJasa = () => {
                   'Provider does not have a description'}
               </p>
               <p className="text-gray-700 text-sm font-semibold mt-3">
-                Start from : {IDRConverter(provider.Service?.price)}
+                Start from : {IDRConverter(+provider.Service?.price)}
               </p>
             </div>
 

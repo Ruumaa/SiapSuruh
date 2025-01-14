@@ -1,6 +1,5 @@
 import { useForm } from 'react-hook-form';
 import { useEditProfile } from '../hooks/useUserHooks';
-import { toast } from 'react-toastify';
 import Loading from '../../../components/Loading';
 import ErrorText from '../../../components/ui/ErrorText';
 import { fetchWithAuth } from '../../../api/fetchWithAuth';
@@ -13,14 +12,12 @@ const FormProfile = () => {
     formState: { errors, dirtyFields, isDirty },
   } = useForm({
     defaultValues: async () => {
-      const respone = await fetchWithAuth(`/users/${user_id}`);
-      return respone.data;
+      const response = await fetchWithAuth(`/users/${user_id}`);
+      return response.data;
     },
-
-    // defaultValues: async () => useGetUserById(user_id),
   });
 
-  const { mutate: editUser, isPending } = useEditProfile();
+  const { mutate: editUser, isPending } = useEditProfile(true);
 
   const handleEditUser = (formValues) => {
     const updatedData = {};
@@ -29,16 +26,10 @@ const FormProfile = () => {
       updatedData[field] = formValues[field];
     });
 
-    editUser(
-      {
-        id: user_id,
-        data: updatedData,
-      },
-      {
-        onSuccess: () => toast.success('New edit saved!'),
-        onError: (error) => toast.error(`${error.message}`),
-      }
-    );
+    editUser({
+      id: user_id,
+      data: updatedData,
+    });
   };
 
   if (isPending) return <Loading />;

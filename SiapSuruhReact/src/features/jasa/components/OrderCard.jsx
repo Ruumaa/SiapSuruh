@@ -13,6 +13,13 @@ const OrderCard = ({ orders }) => {
     setOrder(orders.find((order) => order.id === id));
   };
 
+  if (orders.length === 0)
+    return (
+      <p className="text-lg mt-1 text-gray-500 font-medium">
+        Belum ada pesanan
+      </p>
+    );
+
   return (
     <>
       <div className="space-y-4 mt-5">

@@ -1,120 +1,121 @@
-import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { fetchWithAuth } from '../../../api/fetchWithAuth';
+import ErrorText from '../../../components/ui/ErrorText';
+import { useEditProfile } from '../../pengguna/hooks/useUserHooks';
 
 const FormProfileJasa = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    namaJasa: '',
-    bio: '',
-    category: '',
-    nohp: '',
-    address: '',
-    role: 'Pengguna',
+  const user_id = localStorage.getItem('user_id');
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, dirtyFields, isDirty },
+  } = useForm({
+    defaultValues: async () => {
+      const response = await fetchWithAuth(`/users/${user_id}`);
+      return response.data;
+    },
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
-  };
+  const { mutate: editUser, isPending } = useEditProfile(false);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    window.location.reload();
-    console.log(formData);
+  const handleEditUser = (formValues) => {
+    const updatedData = {};
+
+    Object.keys(dirtyFields).forEach((field) => {
+      updatedData[field] = formValues[field];
+    });
+
+    editUser({
+      id: user_id,
+      data: updatedData,
+    });
   };
   return (
     <>
       {/* Form */}
       <form
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmit(handleEditUser)}
         className="bg-white shadow-md p-8 rounded-lg w-[46rem] my-20"
       >
         <h2 className="text-2xl font-bold text-center">Perbarui Profile</h2>
         <div className="flex items-center justify-center w-full my-6">
-          <div className="w-1/2 flex items-start justify-center h-full">
-            <div className="size-60 rounded-full bg-gray-200 hover:cursor-pointer"></div>
+          <div className="w-1/2 flex items-center justify-center">
+            <div className=" size-60 rounded-full">
+              <img
+                src="/img-placeholder.svg"
+                className="rounded-full"
+                alt="user-img"
+              />
+            </div>
           </div>
-          <div className="w-1/2 space-y-6 ">
-            {/* Nama */}
-            <input
-              type="text"
-              name="name"
-              placeholder="Nama"
-              value={formData.name}
-              onChange={handleChange}
-              className="input input-bordered  focus:outline-none w-full "
-            />
+          <div className="w-1/2 space-y-4 ">
+            {/* Username */}
+            <div>
+              <label className="font-semibold sm pl-1">Username</label>
+              <input
+                type="text"
+                placeholder="Username"
+                {...register('username', { required: 'Username is required' })}
+                className="input input-bordered  focus:outline-none w-full "
+              />
+              {errors.username && (
+                <ErrorText errorMessage={errors.address.message} />
+              )}
+            </div>
             {/* Email */}
-            <input
-              type="email"
-              name="email"
-              placeholder="Email"
-              value={formData.email}
-              onChange={handleChange}
-              className="input input-bordered  focus:outline-none w-full "
-            />
-            {/* Password */}
-            <input
-              type="password"
-              name="password"
-              placeholder="Password"
-              value={formData.password}
-              onChange={handleChange}
-              className="input input-bordered  focus:outline-none w-full "
-            />
-            {/* Nama Jasa */}
-            <input
-              type="text"
-              name="namaJasa"
-              placeholder="Nama Jasa"
-              value={formData.namaJasa}
-              onChange={handleChange}
-              className="input input-bordered  focus:outline-none w-full "
-            />
-            {/* Bio */}
-            <textarea
-              type="text"
-              name="bio"
-              placeholder="Bio"
-              value={formData.bio}
-              onChange={handleChange}
-              className="textarea textarea-bordered  focus:outline-none w-full "
-            />
-            {/* Kategori */}
-            <input
-              type="text"
-              name="category"
-              placeholder="category"
-              value={formData.category}
-              onChange={handleChange}
-              className="input input-bordered  focus:outline-none w-full "
-            />
+            <div>
+              <label className="font-semibold sm pl-1">Email</label>
+              <input
+                type="email"
+                placeholder="Email"
+                {...register('email', { required: 'Email is required' })}
+                className="input input-bordered  focus:outline-none w-full "
+              />
+              {errors.email && (
+                <ErrorText errorMessage={errors.email.message} />
+              )}
+            </div>
             {/* No HP */}
-            <input
-              type="tel"
-              name="nohp"
-              placeholder="Nomor Handphone"
-              value={formData.nohp}
-              onChange={handleChange}
-              className="input input-bordered  focus:outline-none w-full "
-            />
+            <div>
+              <label className="font-semibold sm pl-1">Nomor Handphone</label>
+              <input
+                type="tel"
+                {...register('phone_number', {
+                  required: 'Nomor Handphone is required',
+                  pattern: {
+                    value: /^[0-9]{10,15}$/,
+                    message: 'Nomor handphone tidak valid (10-15 angka)',
+                  },
+                })}
+                placeholder="Nomor Handphone"
+                className="input input-bordered  focus:outline-none w-full "
+              />
+              {errors.phone_number && (
+                <ErrorText errorMessage={errors.phone_number.message} />
+              )}
+            </div>
             {/* Alamat */}
-            <input
-              type="text"
-              name="address"
-              placeholder="Alamat"
-              value={formData.address}
-              onChange={handleChange}
-              className="input input-bordered  focus:outline-none w-full"
-            />
+            <div>
+              <label className="font-semibold sm pl-1">Alamat</label>
+              <input
+                type="text"
+                {...register('address', { required: 'Address is required' })}
+                placeholder="Address"
+                className="input input-bordered  focus:outline-none w-full"
+              />
+              {errors.address && (
+                <ErrorText errorMessage={errors.address.message} />
+              )}
+            </div>
           </div>
         </div>
         <button
           type="submit"
-          className="btn w-full btn-primary hover:text-white"
+          disabled={!isDirty || isPending}
+          className="btn w-full btn-primary hover:text-white disabled:bg-black/90 disabled:text-white/10"
         >
-          Simpan
+          {isPending ? 'Loading...' : 'Simpan'}
         </button>
       </form>
     </>

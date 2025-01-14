@@ -10,6 +10,7 @@ import {
   getUserById,
 } from '../services/userService';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 export const useProvider = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -81,14 +82,18 @@ export const useOrdersByUserId = (id) => {
   return { orders, isLoading, error };
 };
 
-export const useEditProfile = () => {
+export const useEditProfile = (isUser) => {
+  const navigate = useNavigate();
   return useMutation({
     mutationFn: editUser,
     onSuccess: (data) => {
       console.log('Edit Success:', data);
+      navigate(isUser ? '/user/home' : '/provider/home');
+      toast.success('Profile Updated!');
     },
     onError: (error) => {
       console.error('Edit Error:', error);
+      toast.error(`${error.message}`);
     },
   });
 };
