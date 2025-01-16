@@ -66,14 +66,14 @@ const HomepageUser = () => {
                     {provider.Service?.description ??
                       'Provider does not have a description'}
                   </p>
-                  {/* Render Categories */}
+                  {/* Render Categories
                   <div className="flex flex-wrap gap-2 mt-2">
                     {provider.Categories.map((category) => (
                       <span key={category.id} className="badge badge-outline">
                         {category.name ?? 'Unknown'}
                       </span>
                     ))}
-                  </div>
+                  </div> */}
                 </div>
               </div>
             ))

@@ -86,13 +86,13 @@ const Layanan = () => {
             </div>
 
             {/* Categories */}
-            <div className="flex flex-wrap gap-2 mt-4">
+            {/* <div className="flex flex-wrap gap-2 mt-4">
               {provider.Categories.map((category) => (
                 <span key={category.id} className="badge p-3 badge-outline">
                   {category.name ?? 'Unknown'}
                 </span>
               ))}
-            </div>
+            </div> */}
 
             {/* Button */}
             <div className="flex justify-end mt-6">
