@@ -62,3 +62,11 @@ export const createReport = async (data) => {
   });
   return response.data;
 };
+
+export const createReview = async (data) => {
+  const repsponse = await fetchWithAuth('/reviews', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
+  return repsponse.data;
+};

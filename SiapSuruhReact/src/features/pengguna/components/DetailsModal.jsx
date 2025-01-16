@@ -1,14 +1,21 @@
 import { IDRConverter } from '../../../utils/IDRConverter';
 import { formatDate } from '../../../utils/ParseDate';
-import { useEditOrderStatus, useReport } from '../hooks/useUserHooks';
+import {
+  useEditOrderStatus,
+  useReport,
+  useReview,
+} from '../hooks/useUserHooks';
 import ReportModal from './ReportModal';
+import ReviewModal from './ReviewModal';
 
 const DetailsModal = ({ isOpen, handleModal, order }) => {
   const { mutate: editOrder, isPending } = useEditOrderStatus();
   const { isOpenReport, handleReportModal } = useReport();
+  const { isOpenReview, handleReviewModal } = useReview();
 
   const handleEditOrderStatus = (id, status) => {
     editOrder({ id, data: { status } });
+    handleModal();
   };
 
   return (
@@ -87,10 +94,7 @@ const DetailsModal = ({ isOpen, handleModal, order }) => {
                   <button
                     disabled={order.status !== 'PROCCESSED'}
                     className="btn btn-sm w-full h-10 bg-green-600 text-white hover:bg-green-700 disabled:bg-gray-100 disabled:text-gray-300"
-                    onClick={() => {
-                      handleModal();
-                      handleEditOrderStatus(order.id, 'COMPLETED');
-                    }}
+                    onClick={handleReviewModal}
                   >
                     {isPending ? 'Loading...' : 'Selesaikan Pesanan'}
                   </button>
@@ -100,12 +104,19 @@ const DetailsModal = ({ isOpen, handleModal, order }) => {
           </div>
         </div>
       )}
+
       <ReportModal
         isOpenReport={isOpenReport}
         handleModal={handleModal}
         handleReportModal={handleReportModal}
-        provider_id={order.provider_id}
-        user_id={order.user_id}
+        orderProps={order}
+      />
+      <ReviewModal
+        isOpenReview={isOpenReview}
+        handleReviewModal={handleReviewModal}
+        orderProps={order}
+        handleDetailsModal={handleModal}
+        handleEditOrderStatus={handleEditOrderStatus}
       />
     </>
   );

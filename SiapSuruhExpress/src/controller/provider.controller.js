@@ -3,6 +3,14 @@ import { prisma } from '../config/prisma.js';
 export const getAllProviders = async (req, res) => {
   try {
     const data = await prisma.provider.findMany({
+      where: {
+        isSuspended: false,
+        Report: {
+          none: {
+            action_taken: 'DELETION',
+          },
+        },
+      },
       include: {
         Service: true,
         Categories: true,
@@ -10,6 +18,7 @@ export const getAllProviders = async (req, res) => {
         Review: true,
         Order: true,
         User: true,
+        Report: true,
       },
     });
     return res
@@ -211,6 +220,48 @@ export const deleteProvider = async (req, res) => {
     return res
       .status(200)
       .json({ message: 'Delete provider successful' }, data);
+  } catch (error) {
+    console.error('Error', error.message);
+    return res.status(500).json(error.message);
+  }
+};
+
+export const suspendProvider = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const provider = await prisma.provider.update({
+      where: {
+        id,
+      },
+      data: {
+        isSuspended: true,
+      },
+    });
+    return res
+      .status(200)
+      .json({ message: 'Suspend provider successful', provider });
+  } catch (error) {
+    console.error('Error', error.message);
+    return res.status(500).json(error.message);
+  }
+};
+
+export const unSuspendProvider = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const provider = await prisma.provider.update({
+      where: {
+        id,
+      },
+      data: {
+        isSuspended: false,
+      },
+    });
+
+    return res.status(200).json({
+      message: 'Unsuspend provider successful',
+      provider,
+    });
   } catch (error) {
     console.error('Error', error.message);
     return res.status(500).json(error.message);

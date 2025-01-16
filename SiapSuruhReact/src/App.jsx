@@ -15,6 +15,7 @@ import ProfileUser from './pages/user/profile';
 import ProfileJasa from './pages/jasa/profile';
 import RequireAuth from './middleware/requireAuth';
 import ProviderService from './pages/jasa/provider';
+import LoginAdmin from './features/admin/components/LoginAdmin';
 
 const App = () => {
   return (
@@ -27,6 +28,7 @@ const App = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/user/login" element={<LoginUser />} />
           <Route path="/provider/login" element={<LoginJasa />} />
+          <Route path="/admin/login" element={<LoginAdmin />} />
 
           {/* Jasa */}
           <Route element={<RequireAuth allowedRoles={['PROVIDER']} />}>

@@ -41,6 +41,7 @@ model Provider {
   total_reviews      Int?
   provider_name      String?
   bio                String?
+  isSuspended        Boolean              @default(false)
   User               User                 @relation(fields: [user_id], references: [id])
   Categories         Category[]
   Service            Service?

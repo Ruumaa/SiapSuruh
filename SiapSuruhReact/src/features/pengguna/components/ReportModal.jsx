@@ -5,14 +5,14 @@ const ReportModal = ({
   isOpenReport,
   handleModal,
   handleReportModal,
-  provider_id,
-  user_id,
+  orderProps,
 }) => {
   const [desc, setDesc] = useState('');
   const handleDesc = (e) => {
     setDesc(e.target.value);
   };
   const { mutate: createReport, isPending } = useCreateReport();
+  const { provider_id, user_id } = orderProps;
 
   const handleReport = (e) => {
     e.preventDefault();

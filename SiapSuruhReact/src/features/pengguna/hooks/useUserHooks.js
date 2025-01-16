@@ -3,6 +3,7 @@ import { useState } from 'react';
 import {
   createOrder,
   createReport,
+  createReview,
   editOrderStatus,
   editUser,
   fetchProviders,
@@ -27,7 +28,7 @@ export const useProvider = () => {
 
   let filteredData = providers?.filter(
     (provider) =>
-      provider?.provider_name
+      provider?.Service.title
         ?.toLowerCase()
         .includes(searchQuery.toLowerCase()) ||
       provider.Categories.some((category) =>
@@ -111,6 +112,14 @@ export const useCreateOrder = () => {
   });
 };
 
+export const useReview = () => {
+  const [isOpenReview, setIsOpenReview] = useState(false);
+  const handleReviewModal = () => {
+    setIsOpenReview((prevState) => !prevState);
+  };
+  return { isOpenReview, handleReviewModal };
+};
+
 export const useEditOrderStatus = () => {
   const queryClient = useQueryClient();
   return useMutation({
@@ -146,6 +155,20 @@ export const useCreateReport = () => {
     },
     onError: (error) => {
       console.error('Create Report Error:', error);
+      toast.error(`${error.message}`);
+    },
+  });
+};
+
+export const useCreateReview = () => {
+  return useMutation({
+    mutationFn: createReview,
+    onSuccess: (data) => {
+      console.log('Create Review Success:', data);
+      toast.success('Review Created!');
+    },
+    onError: (error) => {
+      console.error('Create Review Error:', error);
       toast.error(`${error.message}`);
     },
   });

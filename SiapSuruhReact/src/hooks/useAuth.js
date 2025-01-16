@@ -1,5 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
-import { loginJasa, loginUser, register } from '../api/auth';
+import { loginAdmin, loginJasa, loginUser, register } from '../api/auth';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 export const useLoginUser = () => {
   return useMutation({
@@ -25,6 +27,24 @@ export const useLoginJasa = () => {
     },
     onError: (error) => {
       console.error('Login Error:', error.message);
+    },
+  });
+};
+
+export const useLoginAdmin = () => {
+  const navigate = useNavigate();
+  return useMutation({
+    mutationFn: loginAdmin,
+    onSuccess: (data) => {
+      localStorage.setItem('token', data.accessToken);
+      localStorage.setItem('role', data.role);
+      localStorage.setItem('user_id', data.id);
+      toast.success('Login Success');
+      navigate('/admin');
+    },
+    onError: (error) => {
+      console.error('Login Error:', error.message);
+      toast.error(`${error.message}`);
     },
   });
 };
