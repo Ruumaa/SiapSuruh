@@ -125,7 +125,7 @@ export const editReport = async (req, res) => {
     // Jika action_taken adalah SUSPENSION, DELETION, atau NONE, update semua report lainnya dengan reported_provider_id yang sama
     await prisma.report.updateMany({
       where: {
-        reported_provider_id,
+        reported_provider_id: existedReport.reported_provider_id,
       },
       data: {
         action_taken, // update semua dengan action_taken yang baru (SUSPENSION, DELETION, atau NONE)

@@ -4,6 +4,8 @@ import {
   createOrder,
   createReport,
   createReview,
+  deleteProvider,
+  deleteUser,
   editOrderStatus,
   editUser,
   fetchProviders,
@@ -13,6 +15,7 @@ import {
 } from '../services/userService';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { HandleLogout } from '../../../hooks/useAuth';
 
 export const useProvider = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -31,9 +34,7 @@ export const useProvider = () => {
       provider?.Service.title
         ?.toLowerCase()
         .includes(searchQuery.toLowerCase()) ||
-      provider.Categories.some((category) =>
-        category.name.toLowerCase().includes(searchQuery.toLowerCase())
-      )
+      provider?.provider_name?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return {
@@ -95,6 +96,40 @@ export const useEditProfile = (isUser) => {
     },
     onError: (error) => {
       console.error('Edit Error:', error);
+      toast.error(`${error.message}`);
+    },
+  });
+};
+
+export const useDeleteProvider = () => {
+  const navigate = useNavigate();
+  return useMutation({
+    mutationFn: deleteProvider,
+    onSuccess: (data) => {
+      console.log('Delete Success:', data);
+      HandleLogout();
+      navigate('/');
+      toast.success('Provider Deleted!');
+    },
+    onError: (error) => {
+      console.error('Delete Error:', error);
+      toast.error(`${error.message}`);
+    },
+  });
+};
+
+export const useDeleteUser = () => {
+  const navigate = useNavigate();
+  return useMutation({
+    mutationFn: deleteUser,
+    onSuccess: (data) => {
+      console.log('Delete Success:', data);
+      HandleLogout();
+      navigate('/');
+      toast.success('User Deleted!');
+    },
+    onError: (error) => {
+      console.error('Delete Error:', error);
       toast.error(`${error.message}`);
     },
   });

@@ -28,6 +28,7 @@ import {
 import {
   createProvider,
   deleteProvider,
+  deleteProviderByUserId,
   editProvider,
   editProviderService,
   getAllProviders,
@@ -147,10 +148,16 @@ router.delete(
   deleteProvider
 );
 
+router.delete(
+  '/api/providers/user/:user_id',
+  authorization,
+  deleteProviderByUserId
+);
+
 // Order
 router.get('/api/orders', authorization, getAllOrders);
 router.get('/api/orders/:id', authorization, getOrderById);
-router.get('/api/orders/user/:id', authorization, getOrdersByUserId);
+router.get('/api/orders/user/:user_id', authorization, getOrdersByUserId);
 router.post('/api/orders', authorization, createOrder);
 router.put('/api/orders/:id', authorization, editOrder);
 router.delete('/api/orders/:id', authorization, deleteOrder);

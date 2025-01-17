@@ -42,9 +42,9 @@ export const getOrdersByUserId = async (req, res) => {
         Provider: true,
       },
     });
-    if (data.length === 0) {
-      return res.status(404).json({ message: 'No orders found for this user' });
-    }
+    // if (data.length === 0) {
+    //   return res.status(404).json({ message: 'No orders found for this user' });
+    // }
     return res
       .status(200)
       .json({ message: 'Get orders by user ID successful', data });

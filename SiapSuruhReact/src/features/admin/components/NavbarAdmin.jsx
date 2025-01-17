@@ -8,9 +8,6 @@ const NavbarAdmin = ({ handleLogout }) => {
         SiapSuruh<span className="text-gray-400 font-sans">Admin</span>.
       </Link>
       <div className="flex items-center gap-x-4">
-        <Link className="btn btn-ghost btn-sm h-10" to="/admin/laporan">
-          Laporan
-        </Link>
         <div onClick={handleLogout} className="btn bg-white btn-sm h-10">
           Logout <HiOutlineLogout className="size-5" />
         </div>

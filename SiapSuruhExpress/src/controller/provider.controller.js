@@ -226,6 +226,39 @@ export const deleteProvider = async (req, res) => {
   }
 };
 
+export const deleteProviderByUserId = async (req, res) => {
+  try {
+    const { user_id } = await req.params;
+    const existedProvider = await prisma.provider.findUnique({
+      where: { user_id },
+    });
+    if (!existedProvider)
+      return res.status(404).json({ message: 'Provider not found' });
+
+    const provId = existedProvider.id;
+
+    await prisma.order.deleteMany({ where: { provider_id: provId } });
+    await prisma.review.deleteMany({ where: { provider_id: provId } });
+    await prisma.report.deleteMany({ where: { reported_provider_id: provId } });
+    await prisma.service.deleteMany({ where: { provider_id: provId } });
+    await prisma.providerCategories.deleteMany({
+      where: { provider_id: provId },
+    });
+
+    await prisma.provider.delete({
+      where: { user_id },
+    });
+    await prisma.user.delete({ where: { id: user_id } });
+
+    return res.status(200).json({
+      message: 'Delete provider successful',
+    });
+  } catch (error) {
+    console.error('Error', error.message);
+    return res.status(500).json(error.message);
+  }
+};
+
 export const suspendProvider = async (req, res) => {
   try {
     const { id } = req.params;

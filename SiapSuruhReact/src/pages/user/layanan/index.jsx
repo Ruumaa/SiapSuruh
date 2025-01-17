@@ -16,6 +16,12 @@ const Layanan = () => {
     setModalOpen(!isModalOpen);
   };
 
+  const averageRating =
+    provider?.Review?.length > 0
+      ? provider?.Review?.reduce((acc, curr) => acc + curr.rating, 0) /
+        provider?.Review?.length
+      : 0;
+
   if (isLoading) return <Loading />;
   if (error) return <ErrorPage />;
 
@@ -40,10 +46,10 @@ const Layanan = () => {
 
             {/* Rating Section */}
             <div className="flex flex-col items-center">
-              <Rating rating={provider.rating} />
+              <Rating rating={averageRating} />
               <div className="text-sm text-gray-600 mt-1">
-                {provider.rating} (
-                <span className="font-semibold">{provider.total_reviews}</span>{' '}
+                {averageRating} (
+                <span className="font-semibold">{provider?.Review.length}</span>{' '}
                 reviews)
               </div>
             </div>

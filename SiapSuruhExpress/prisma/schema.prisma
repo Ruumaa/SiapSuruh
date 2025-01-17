@@ -28,12 +28,6 @@ model User {
   Report       Report[]
 }
 
-enum Role {
-  USER
-  ADMIN
-  PROVIDER
-}
-
 model Provider {
   id                 String               @id @default(uuid())
   user_id            String               @unique
@@ -42,7 +36,7 @@ model Provider {
   provider_name      String?
   bio                String?
   isSuspended        Boolean              @default(false)
-  User               User                 @relation(fields: [user_id], references: [id])
+  User               User                 @relation(fields: [user_id], references: [id], onDelete: Cascade)
   Categories         Category[]
   Service            Service?
   ProviderCategories ProviderCategories[]
@@ -95,7 +89,7 @@ model Order {
   total_price    Decimal
   // payment_method 
   payment_status PaymentStatus @default(PENDING)
-  User           User          @relation(fields: [user_id], references: [id])
+  User           User          @relation(fields: [user_id], references: [id], onDelete: Cascade)
   Service        Service       @relation(fields: [service_id], references: [id])
   Provider       Provider      @relation(fields: [provider_id], references: [id])
 }
@@ -121,7 +115,7 @@ model Review {
   comment     String?
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt
-  User        User     @relation(fields: [user_id], references: [id])
+  User        User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
   Provider    Provider @relation(fields: [provider_id], references: [id])
 }
 
@@ -130,6 +124,12 @@ enum ActionTaken {
   NONE
   SUSPENSION
   DELETION
+}
+
+enum Role {
+  USER
+  ADMIN
+  PROVIDER
 }
 
 enum OrderStatus {

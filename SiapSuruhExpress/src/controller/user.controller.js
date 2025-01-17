@@ -102,6 +102,10 @@ export const deleteUser = async (req, res) => {
 
     if (!existedId) return res.status(404).json({ message: 'User not found' });
 
+    await prisma.provider.deleteMany({ where: { user_id: id } });
+    await prisma.review.deleteMany({ where: { user_id: id } });
+    await prisma.order.deleteMany({ where: { user_id: id } });
+    await prisma.report.deleteMany({ where: { reported_by_id: id } });
     await prisma.user.delete({
       where: {
         id,

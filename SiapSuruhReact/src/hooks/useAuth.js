@@ -60,3 +60,9 @@ export const useRegister = () => {
     },
   });
 };
+
+export const HandleLogout = () => {
+  localStorage.removeItem('token');
+  localStorage.removeItem('role');
+  localStorage.removeItem('user_id');
+};

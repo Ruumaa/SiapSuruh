@@ -1,4 +1,4 @@
-import { IoLocationSharp } from 'react-icons/io5';
+// import { IoLocationSharp } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../../components/Loading';
 import ErrorPage from '../../components/ui/ErrorPage';
@@ -19,18 +19,11 @@ const HomepageUser = () => {
   return (
     <>
       <div className="min-h-screen flex flex-col items-center justify-start w-full my-20 ">
-        {/* Lokasi */}
-        <div className="mb-4">
-          <p className="text-lg font-semibold flex items-center">
-            <IoLocationSharp className="mr-1 -mt-1" /> Jakarta, Indonesia
-          </p>
-        </div>
-
         {/* Search Fitur */}
         <div className="mb-8 w-full max-w-md flex gap-x-3">
           <input
             type="text"
-            placeholder="Cari berdasarkan nama jasa atau kategori"
+            placeholder="Cari berdasarkan nama jasa atau penyedia jasa"
             className="input input-bordered w-full"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}

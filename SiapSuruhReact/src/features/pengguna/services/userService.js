@@ -17,6 +17,20 @@ export const editUser = async ({ id, data }) => {
   return response.data;
 };
 
+export const deleteUser = async ({ id }) => {
+  const response = await fetchWithAuth(`/users/${id}`, {
+    method: 'DELETE',
+  });
+  return response.data;
+};
+
+export const deleteProvider = async (user_id) => {
+  const response = await fetchWithAuth(`/providers/user/${user_id}`, {
+    method: 'DELETE',
+  });
+  return response.data;
+};
+
 export const getUserById = async (id) => {
   const response = await fetchWithAuth(`/users/${id}`);
   return response.data;

@@ -1,7 +1,10 @@
 import { useForm } from 'react-hook-form';
 import { fetchWithAuth } from '../../../api/fetchWithAuth';
 import ErrorText from '../../../components/ui/ErrorText';
-import { useEditProfile } from '../../pengguna/hooks/useUserHooks';
+import {
+  useDeleteProvider,
+  useEditProfile,
+} from '../../pengguna/hooks/useUserHooks';
 
 const FormProfileJasa = () => {
   const user_id = localStorage.getItem('user_id');
@@ -18,6 +21,7 @@ const FormProfileJasa = () => {
   });
 
   const { mutate: editUser, isPending } = useEditProfile(false);
+  const { mutate: deleteProvider } = useDeleteProvider();
 
   const handleEditUser = (formValues) => {
     const updatedData = {};
@@ -110,13 +114,26 @@ const FormProfileJasa = () => {
             </div>
           </div>
         </div>
-        <button
-          type="submit"
-          disabled={!isDirty || isPending}
-          className="btn w-full btn-primary hover:text-white disabled:bg-black/90 disabled:text-white/10"
-        >
-          {isPending ? 'Loading...' : 'Simpan'}
-        </button>
+        <div className="flex items-center justify-between gap-x-2">
+          <div className="w-1/2">
+            <button
+              type="button"
+              onClick={() => deleteProvider(user_id)}
+              className="btn w-full h-10 bg-red-600 text-white hover:bg-red-700 "
+            >
+              Hapus akun
+            </button>
+          </div>
+          <div className="w-1/2">
+            <button
+              type="submit"
+              disabled={!isDirty}
+              className="btn w-full btn-primary hover:text-white disabled:bg-black/90 disabled:text-white/10"
+            >
+              {isPending ? 'Menyimpan...' : 'Simpan'}
+            </button>
+          </div>
+        </div>
       </form>
     </>
   );
