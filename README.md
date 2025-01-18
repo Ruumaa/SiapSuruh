@@ -47,8 +47,9 @@ npm run dev
 ```
 
 🚀 Cara Menggunakan
-Jalankan backend dengan npm run dev pada folder SiapSuruhExpress/
-Jalankan frontend dengan npm run dev pada folder SiapSuruhReact/
+Jalankan backend dengan npm run dev pada folder SiapSuruhExpress
+Jalankan frontend dengan npm run dev pada folder SiapSuruhReact
+
 🛠 Teknologi yang Digunakan
 Frontend: React.js, TailwindCSS
 Backend: Express.js, Prisma, MySQL
