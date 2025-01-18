@@ -14,6 +14,7 @@ git clone https://github.com/Ruumaa/SiapSuruh.git
 
 2️⃣ Menjalankan Frontend
 ```bash
+# Pindah folder
 cd SiapSuruhReact/
 
 # Install dependencies
@@ -24,6 +25,8 @@ npm run dev
 ```
 
 3️⃣ Menjalankan Backend
+```bash
+# Pindah folder
 cd SiapSuruhExpress/
 
 # Buat file .env dan isi dengan konfigurasi berikut
@@ -41,6 +44,7 @@ npx prisma db seed
 
 # Jalankan backend
 npm run dev
+```
 
 🚀 Cara Menggunakan
 Jalankan backend dengan npm run dev pada folder SiapSuruhExpress/
