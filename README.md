@@ -10,6 +10,8 @@ Berikut langkah-langkah untuk menjalankan proyek:
 ### **1️⃣ Clone Repository**
 ```bash
 git clone https://github.com/Ruumaa/SiapSuruh.git
+```
+
 2️⃣ Menjalankan Frontend
 cd SiapSuruhReact/
 
