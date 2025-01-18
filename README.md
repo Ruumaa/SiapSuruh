@@ -13,6 +13,7 @@ git clone https://github.com/Ruumaa/SiapSuruh.git
 ```
 
 2️⃣ Menjalankan Frontend
+```bash
 cd SiapSuruhReact/
 
 # Install dependencies
@@ -20,6 +21,8 @@ npm install
 
 # Jalankan proyek
 npm run dev
+```
+
 3️⃣ Menjalankan Backend
 cd SiapSuruhExpress/
 
